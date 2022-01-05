@@ -1,69 +1,58 @@
 import React, { useState, useEffect } from "react";
 import { ref, uploadBytesResumable } from "firebase/storage";
-import firebase from 'firebase/app'
-import getDownloadURL from 'firebase'
-// import { storage } from "./firebase1";
+// import { firebase } from "./firebase";
+// import getDownloadURL from 'firebase'
+import { storage } from "./firebase1";
+import { uploadBytes } from 'firebase/storage'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import DropdownButton from 'react-bootstrap/DropdownButton';
-import Dropdown from 'react-bootstrap/Dropdown'
-// import { auth } from '../firebase'
-import Signin from "./Signin";
+import Dropdown from 'react-bootstrap/Dropdown';
+//import { auth } from './firebase';
+//import Signin from "./Signin";
+import { app } from './firebase1';
 
 function Home() {
 
 
 
-    const [progress, setProgress] = useState(0);
+    // const [progress, setProgress] = useState(0);
     const formHandler = (e) => {
         e.preventDefault();
         const file = e.target[0].files[0];
-        uploadFiles(file);
+        upload(file);
     };
 
     const formHandler1 = (e) => {
         e.preventDefault();
         const file = e.target[0].files[0];
-        uploadFiles(file);
+        upload(file);
     };
 
-    const uploadFiles = (file) => {
-        //
-        if (!file) return;
-        const sotrageRef = firebase.storage.ref(`files/${file.name}`);
-        const uploadTask = firebase.storage.uploadBytesResumable(sotrageRef, file);
+    // const uploadFiles = (file) => {
+    //     //
+    //     if (!file) return;
+    //     const sotrageRef = firebase.storage.ref(storage, `files/${file.name}`);
+    //     const uploadTask = firebase.storage.uploadBytesResumable(sotrageRef, file);
 
-        uploadTask.on(
-            "state_changed",
-            (snapshot) => {
-                const prog = Math.round(
-                    (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-                );
-                setProgress(prog);
-            },
-            (error) => console.log(error),
-            () => {
-                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                    console.log("File available at", downloadURL);
-                });
-            }
-        );
-    };
+    //     uploadTask.on(
+    //         "state_changed",
+    //         (snapshot) => {
+    //             const prog = Math.round(
+    //                 (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+    //             );
+    //             setProgress(prog);
+    //         },
+    //         (error) => console.log(error),
+    //         () => {
+    //             getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+    //                 console.log("File available at", downloadURL);
+    //             });
+    //         }
+    //     );
+    // };
 
-    const [value1, setValue1] = useState('');
-    const [value2, setValue2] = useState('');
-    const [company, setCompany] = useState('');
-    const [crop, setCrop] = useState('');
-    const [machine, setMachine] = useState('');
-    const [variety, setVariety] = useState('');
 
-    const handleSelect1 = (e) => {
-        console.log(e);
-        setValue1(e)
-    }
-    const handleSelect2 = (e) => {
-        console.log(e);
-        setValue2(e)
-    }
+
     const output1 = document.querySelector("#output1");
     function processSelectedFiles(fileInput) {
         let files = fileInput.files;
@@ -84,23 +73,58 @@ function Home() {
     }
 
 
+    const [image, setImage] = useState('');
+    const [image1, setImage1] = useState('');
+    const upload = () => {
+        if (image == null)
+            return;
+        // console.log(image);
+        const storageRef = ref(storage, `/images/${image.name}`)
+        // console.log(storageRef.name);
+        // console.log(storageRef.fullPath);
+        uploadBytes(storageRef, image).then((snapshot) => {
+            console.log('Uploaded a blob or file!');
+        });
+
+    }
+
+
+    const [value1, setValue1] = useState('');
+    const [value2, setValue2] = useState('');
+    const [company, setCompany] = useState('');
+    const [crop, setCrop] = useState('');
+    const [machine, setMachine] = useState('');
+    const [variety, setVariety] = useState('');
+
+    const handleSelect1 = (e) => {
+        console.log(e);
+        setValue1(e)
+    }
+    const handleSelect2 = (e) => {
+        console.log(e);
+        setValue2(e)
+    }
+
+
+
+
     return (
         <div>
 
             <form onSubmit={formHandler}>
-                <input type="file" className="input" multiple onchange="processSelectedFiles(this)" />
+                <input type="file" className="input" onChange={(e) => { setImage(e.target.files[0]) }} />
                 <div id="output1"></div>
-                <button type="submit">Upload</button>
+                <button onClick={upload}>Upload</button>
 
             </form>
             <form onSubmit={formHandler1}>
-                <input type="file" className="input" multiple onchange="processSelectedFiles(this)" />
+                <input type="file" className="input" onChange={(e) => { setImage(e.target.files[0]) }} />
                 <div id="output2"></div>
 
-                <button type="submit">Upload</button>
+                <button onClick={upload}>Upload</button>
             </form>
             <hr />
-            <h2>Uploading done {progress}%</h2>
+            {/* <h2>Uploading done {progress}%</h2> */}
 
             <input type="text" placeholder="Company's Name" onChange={function (event) {
                 setCompany(event.target.value);
@@ -154,7 +178,7 @@ function Home() {
             <div></div>
 
             <button type="submit">Submit</button>
-            <p><button onClick={() => firebase.auth.signOut()}>Sign out</button></p>
+            {/* <p><button onClick={() => firebase.auth.signOut()}>Sign out</button></p> */}
 
 
         </div>

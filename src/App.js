@@ -146,22 +146,22 @@ function App() {
   // newname = string1 + value1 + "_" + value2 + "_" + company + "_" + crop + "_" + machine + "_" + variety + string4;
 
   // console.log(newname)
-  const [user, setUser] = useState(null)
-  useEffect(() => {
-    var unsubscribe = auth.onAuthStateChanged(userAuth => {
-      var user = {
-        uid: userAuth.uid,
-        email: userAuth.email
-      }
-      if (userAuth) {
-        console.log(userAuth)
-        setUser(user)
-      } else {
-        setUser(null)
-      }
-    })
-    return unsubscribe
-  }, [])
+  // const [user, setUser] = useState(null)
+  // useEffect(() => {
+  //   var unsubscribe = auth.onAuthStateChanged(userAuth => {
+  //     var user = {
+  //       uid: userAuth.uid,
+  //       email: userAuth.email
+  //     }
+  //     if (userAuth) {
+  //       console.log(userAuth)
+  //       setUser(user)
+  //     } else {
+  //       setUser(null)
+  //     }
+  //   })
+  //   return unsubscribe
+  // }, [])
 
 
 

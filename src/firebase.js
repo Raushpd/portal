@@ -1,4 +1,6 @@
-import firebase from "firebase";
+import firebase from "firebase/compat/app"
+import { initializeApp } from 'firebase/app';
+import 'firebase/compat/auth';
 
 // import { initializeApp } from "firebase/app";
 // import { getFirestore } from 'firebase/firestore/lite';
