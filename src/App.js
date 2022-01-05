@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 
-import { storage } from "./firebase1";
+// import { storage } from "./firebase1";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import Dropdown from 'react-bootstrap/Dropdown'
@@ -171,7 +171,8 @@ function App() {
   return (
     <div className="App">
 
-      {user ? <Home /> : <Signin />}
+      {/* {user ? <Home /> : <Signin />} */}
+      <Home />
 
       {/* <form onSubmit={formHandler}>
         <input type="file" className="input" onChange={e => handleChange(e)} />

@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { ref, uploadBytesResumable } from "firebase/storage";
+import firebase from 'firebase/app'
 import getDownloadURL from 'firebase'
-import { storage } from "./firebase1";
+// import { storage } from "./firebase1";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import Dropdown from 'react-bootstrap/Dropdown'
-import { auth } from '../firebase'
+// import { auth } from '../firebase'
 import Signin from "./Signin";
 
 function Home() {
@@ -28,8 +29,8 @@ function Home() {
     const uploadFiles = (file) => {
         //
         if (!file) return;
-        const sotrageRef = ref(storage, `files/${file.name}`);
-        const uploadTask = uploadBytesResumable(sotrageRef, file);
+        const sotrageRef = firebase.storage.ref(`files/${file.name}`);
+        const uploadTask = firebase.storage.uploadBytesResumable(sotrageRef, file);
 
         uploadTask.on(
             "state_changed",
@@ -153,7 +154,7 @@ function Home() {
             <div></div>
 
             <button type="submit">Submit</button>
-            <p><button onClick={() => auth.signOut()}>Sign out</button></p>
+            <p><button onClick={() => firebase.auth.signOut()}>Sign out</button></p>
 
 
         </div>

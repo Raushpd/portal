@@ -1,7 +1,7 @@
 import firebase from "firebase";
 
-import { initializeApp } from "firebase/app";
-import { getFirestore } from 'firebase/firestore/lite';
+// import { initializeApp } from "firebase/app";
+// import { getFirestore } from 'firebase/firestore/lite';
 
 
 const firebaseApp = firebase.initializeApp({
@@ -15,6 +15,6 @@ const firebaseApp = firebase.initializeApp({
 });
 
 const auth = firebase.auth();
-export default firebase;
-export default getDownloadURL
-export { auth };
+// export default firebase;
+// export default getDownloadURL
+export { auth, firebase };
