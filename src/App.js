@@ -3,9 +3,9 @@
 import React, { useState, useEffect } from "react";
 
 // import { storage } from "./firebase1";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import DropdownButton from 'react-bootstrap/DropdownButton';
-import Dropdown from 'react-bootstrap/Dropdown'
+// import 'bootstrap/dist/css/bootstrap.min.css';
+// import DropdownButton from 'react-bootstrap/DropdownButton';
+// import Dropdown from 'react-bootstrap/Dropdown'
 
 import Signin from "./Signin";
 import Home from "./Home";
@@ -146,22 +146,22 @@ function App() {
   // newname = string1 + value1 + "_" + value2 + "_" + company + "_" + crop + "_" + machine + "_" + variety + string4;
 
   // console.log(newname)
-  // const [user, setUser] = useState(null)
-  // useEffect(() => {
-  //   var unsubscribe = auth.onAuthStateChanged(userAuth => {
-  //     var user = {
-  //       uid: userAuth.uid,
-  //       email: userAuth.email
-  //     }
-  //     if (userAuth) {
-  //       console.log(userAuth)
-  //       setUser(user)
-  //     } else {
-  //       setUser(null)
-  //     }
-  //   })
-  //   return unsubscribe
-  // }, [])
+  const [user, setUser] = useState(null)
+  useEffect(() => {
+    var unsubscribe = auth.onAuthStateChanged(userAuth => {
+      var user = {
+        uid: userAuth?.uid,
+        email: userAuth?.email
+      }
+      if (userAuth) {
+        console.log(userAuth)
+        setUser(user)
+      } else {
+        setUser(null)
+      }
+    })
+    return unsubscribe
+  }, [])
 
 
 
@@ -171,8 +171,8 @@ function App() {
   return (
     <div className="App">
 
-      {/* {user ? <Home /> : <Signin />} */}
-      <Home />
+      {user ? <Home /> : <Signin />}
+      {/* <Signin /> */}
 
       {/* <form onSubmit={formHandler}>
         <input type="file" className="input" onChange={e => handleChange(e)} />

@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { ref, uploadBytesResumable } from "firebase/storage";
+import { auth } from "./firebase";
+import firebase from "firebase/compat/app"
 // import { firebase } from "./firebase";
 // import getDownloadURL from 'firebase'
 import { storage } from "./firebase1";
 import { uploadBytes } from 'firebase/storage'
-import 'bootstrap/dist/css/bootstrap.min.css';
-import DropdownButton from 'react-bootstrap/DropdownButton';
-import Dropdown from 'react-bootstrap/Dropdown';
+// import 'bootstrap/dist/css/bootstrap.min.css';
+// import DropdownButton from 'react-bootstrap/lib/DropdownButton'
+// import Dropdown from 'react-bootstrap/lib/Dropdown'
 //import { auth } from './firebase';
 //import Signin from "./Signin";
 import { app } from './firebase1';
@@ -16,17 +18,6 @@ function Home() {
 
 
     // const [progress, setProgress] = useState(0);
-    const formHandler = (e) => {
-        e.preventDefault();
-        const file = e.target[0].files[0];
-        upload(file);
-    };
-
-    const formHandler1 = (e) => {
-        e.preventDefault();
-        const file = e.target[0].files[0];
-        upload(file);
-    };
 
     // const uploadFiles = (file) => {
     //     //
@@ -73,55 +64,150 @@ function Home() {
     }
 
 
-    const [image, setImage] = useState('');
-    const [image1, setImage1] = useState('');
-    const upload = () => {
-        if (image == null)
-            return;
-        // console.log(image);
-        const storageRef = ref(storage, `/images/${image.name}`)
-        // console.log(storageRef.name);
-        // console.log(storageRef.fullPath);
-        uploadBytes(storageRef, image).then((snapshot) => {
-            console.log('Uploaded a blob or file!');
-        });
 
-    }
+    var str;
+    var str2;
+    var str3;
+    var str4;
 
 
+    const [string2, setString2] = useState("");
+    const [string, setString] = useState("");
     const [value1, setValue1] = useState('');
     const [value2, setValue2] = useState('');
     const [company, setCompany] = useState('');
     const [crop, setCrop] = useState('');
     const [machine, setMachine] = useState('');
     const [variety, setVariety] = useState('');
+    function selectedMode() {
+        var x = document.getElementById("mode").value;
+        setValue1(x);
+        console.log(x)
 
-    const handleSelect1 = (e) => {
-        console.log(e);
-        setValue1(e)
     }
-    const handleSelect2 = (e) => {
-        console.log(e);
-        setValue2(e)
+    function selectedFunctionality() {
+        var x = document.getElementById("functionality").value;
+        setValue2(x);
+        console.log(x)
+
+    }
+    const [image1, setImage1] = useState('');
+    const [image2, setImage2] = useState('');
+
+    let handleChange1 = e => {
+        var files = e.target.files;
+        var filesArray = [].slice.call(files);
+        filesArray.forEach(e => {
+
+            console.log(e.size);
+            console.log(e.lastModifiedDate);
+            console.log(e.type);
+            str = e.name;
+            str4 = str.substring(str.indexOf(".") + 1);
+            str = str.substring(0, str.indexOf("."));
+            setString(str);
+            setString2(str4);
+            setImage1(e.target.files[0])
+        });
+    };
+
+    const [string1, setString1] = useState("");
+    const [string4, setString4] = useState("");
+    const [date, setDate] = useState("");
+    const [type, setType] = useState("");
+    const [size, setSize] = useState("");
+    var str2;
+    var str3;
+    var fileSize;
+    var modDate;
+    var fileType;
+
+    let handleChange2 = e => {
+        var files = e.target.files;
+        var filesArray = [].slice.call(files);
+        filesArray.forEach(e => {
+            console.log(typeof (e.lastModifiedDate))
+            // fileSize = e.size
+            // setSize(fileSize);
+            // modDate = e.lastModifiedDate
+            // setDate(modDate);
+            // fileType = e.type
+            // setType(fileType);
+            // // console.log(e.name);
+
+            str2 = e.name;
+
+            str3 = str2.substring(str2.indexOf(".") + 1);
+            str2 = str2.substring(0, str2.indexOf("."));
+            setString1(str2);
+
+
+            //e.name = newname;
+            console.log(e.name)
+            setString4(str3);
+            setImage2(e.target.files[0])
+
+
+
+
+        });
+    };
+
+
+
+
+
+
+    const upload1 = () => {
+
+        if (image1 == null)
+            return;
+        console.log(newname1);
+
+
+        const storageRef = ref(storage, `/pyfile/${newname1}`)
+        // console.log(storageRef.name);
+        // console.log(storageRef.fullPath);
+        uploadBytes(storageRef, image1).then((snapshot) => {
+            console.log('Uploaded a blob or file!');
+        });
+
     }
 
+    const upload2 = () => {
+        if (image2 == null)
+            return;
+        console.log(newname1);
+
+
+        const storageRef = ref(storage, `/modalfile/${image2.name}`)
+        // console.log(storageRef.name);
+        // console.log(storageRef.fullPath);
+        uploadBytes(storageRef, image2).then((snapshot) => {
+            console.log('Uploaded a blob or file!');
+        });
+
+    }
+
+    var newname1 = string + "_" + company + "_" + crop + "_" + machine + "_" + variety + "_" + value1 + "_" + value2 + "." + string2;
+    var newname2 = string1 + "_" + company + "_" + crop + "_" + machine + "_" + variety + "_" + value1 + "_" + value2 + "." + string4;
 
 
 
     return (
         <div>
 
-            <form onSubmit={formHandler}>
-                <input type="file" className="input" onChange={(e) => { setImage(e.target.files[0]) }} />
+            <form onSubmit={upload1}>
+                <input type="file" className="input" onChange={handleChange1} />
                 <div id="output1"></div>
-                <button onClick={upload}>Upload</button>
+                <button onClick={(e) => { setImage2(e.target.files[0]) }}>Upload Py File</button>
 
             </form>
-            <form onSubmit={formHandler1}>
-                <input type="file" className="input" onChange={(e) => { setImage(e.target.files[0]) }} />
+            <form >
+                <input type="file" className="input" onChange={(e) => { setImage2(e.target.files[0]) }} />
                 <div id="output2"></div>
 
-                <button onClick={upload}>Upload</button>
+                <button onClick={upload2}>Upload Modal File</button>
             </form>
             <hr />
             {/* <h2>Uploading done {progress}%</h2> */}
@@ -148,37 +234,30 @@ function Home() {
                 value={variety}></input>
 
 
-            <DropdownButton
-                title="Mode"
-                id="dropdown-menu-align-right"
-                onSelect={handleSelect1}
-            >
-                <Dropdown.Item eventKey="Offline">Offline</Dropdown.Item>
-                <Dropdown.Item eventKey="Online">Online</Dropdown.Item>
-            </DropdownButton>
+            <select id="mode" onChange={selectedMode}>
+                <option value="Online">Online</option>
+                <option value="Offline">Offline</option>
+            </select>
 
             <h4>You selected {value1}</h4>
-            <DropdownButton
 
-                title="Functionality"
-                id="dropdown-menu-align-right"
-                onSelect={handleSelect2}
-            >
-                <Dropdown.Item eventKey="Object">Object</Dropdown.Item>
-                <Dropdown.Item eventKey="Detection">Detection</Dropdown.Item>
-                <Dropdown.Item eventKey="Classification">Classification</Dropdown.Item>
+            <select id="functionality" onChange={selectedFunctionality}>
+                <option value="Object">Object</option>
+                <option value="Detection">Detection</option>
+                <option value="Classification">Classification</option>
+                <option value="Dev">Dev</option>
+                <option value="Staging">Staging</option>
+                <option value="Production">Production</option>
+            </select>
 
-
-                <Dropdown.Item eventKey="Dev">Dev</Dropdown.Item>
-                <Dropdown.Item eventKey="Staging">Staging</Dropdown.Item>
-                <Dropdown.Item eventKey="Production">Production</Dropdown.Item>
-            </DropdownButton>
             <h4>You selected {value2}</h4>
-            your file name is {company}_{crop}_{machine}_{variety}
+            your file name is {string}_{company}_{crop}_{machine}_{variety}_{value1}_{value2}.{string2}
+            <div></div>
+            your file name is {string1}_{company}_{crop}_{machine}_{variety}_{value1}_{value2}.{string4}
             <div></div>
 
             <button type="submit">Submit</button>
-            {/* <p><button onClick={() => firebase.auth.signOut()}>Sign out</button></p> */}
+            <p><button onClick={() => auth.signOut()}>Sign out</button></p>
 
 
         </div>
