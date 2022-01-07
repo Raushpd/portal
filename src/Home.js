@@ -5,6 +5,7 @@ import firebase from "firebase/compat/app"
 // import { firebase } from "./firebase";
 // import getDownloadURL from 'firebase'
 import { storage } from "./firebase1";
+
 import { uploadBytes } from 'firebase/storage'
 // import 'bootstrap/dist/css/bootstrap.min.css';
 // import DropdownButton from 'react-bootstrap/lib/DropdownButton'
@@ -107,7 +108,6 @@ function Home() {
             str = str.substring(0, str.indexOf("."));
             setString(str);
             setString2(str4);
-            setImage1(e.target.files[0])
         });
     };
 
@@ -145,7 +145,6 @@ function Home() {
             //e.name = newname;
             console.log(e.name)
             setString4(str3);
-            setImage2(e.target.files[0])
 
 
 
@@ -153,19 +152,23 @@ function Home() {
         });
     };
 
+    const formHandler1 = (e) => {
+        e.preventDefault();
+        const file = e.target[0].files[0];
+        // upload1(file);
+    };
 
-
-
-
+    const formHandler2 = (e) => {
+        e.preventDefault();
+        const file = e.target[0].files[0];
+        // upload2(file);
+    };
 
     const upload1 = () => {
-
         if (image1 == null)
             return;
-        console.log(newname1);
-
-
-        const storageRef = ref(storage, `/pyfile/${newname1}`)
+        // console.log(image);
+        const storageRef = ref(storage, `/py_file/${image1.name}`)
         // console.log(storageRef.name);
         // console.log(storageRef.fullPath);
         uploadBytes(storageRef, image1).then((snapshot) => {
@@ -177,10 +180,8 @@ function Home() {
     const upload2 = () => {
         if (image2 == null)
             return;
-        console.log(newname1);
-
-
-        const storageRef = ref(storage, `/modalfile/${image2.name}`)
+        // console.log(image);
+        const storageRef = ref(storage, `/modal_file/${image2.name}`)
         // console.log(storageRef.name);
         // console.log(storageRef.fullPath);
         uploadBytes(storageRef, image2).then((snapshot) => {
@@ -188,6 +189,10 @@ function Home() {
         });
 
     }
+
+
+
+
 
     var newname1 = string + "_" + company + "_" + crop + "_" + machine + "_" + variety + "_" + value1 + "_" + value2 + "." + string2;
     var newname2 = string1 + "_" + company + "_" + crop + "_" + machine + "_" + variety + "_" + value1 + "_" + value2 + "." + string4;
@@ -197,13 +202,14 @@ function Home() {
     return (
         <div>
 
-            <form onSubmit={upload1}>
-                <input type="file" className="input" onChange={handleChange1} />
+            <form onSubmit={formHandler1}>
+                <input type="file" className="input" onChange={(e) => { setImage1(e.target.files[0]) }} />
                 <div id="output1"></div>
-                <button onClick={(e) => { setImage2(e.target.files[0]) }}>Upload Py File</button>
+
+                <button onClick={upload1}>Upload Py File</button>
 
             </form>
-            <form >
+            <form onSubmit={formHandler2}>
                 <input type="file" className="input" onChange={(e) => { setImage2(e.target.files[0]) }} />
                 <div id="output2"></div>
 
@@ -257,7 +263,7 @@ function Home() {
             <div></div>
 
             <button type="submit">Submit</button>
-            <p><button onClick={() => auth.signOut()}>Sign out</button></p>
+            {/* <p><button onClick={() => auth.signOut()}>Sign out</button></p> */}
 
 
         </div>
