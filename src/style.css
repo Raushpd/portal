@@ -1,0 +1,73 @@
+.user_form, .user_form1, .user_form2, .user_form3, .user_form4{
+    display:flex;
+    flex-wrap:wrap;
+    justify-items: space-between;
+    /* background-color: red;  */
+}
+
+.user_form, .user_form1, .user_form2, .user_form3, .user_form4 > div{
+    flex: 10%; 
+  margin-bottom: 10px;
+  margin-left:10px;
+}
+
+.option{
+    display:flex;
+    flex-wrap:wrap;
+    justify-items: space-between;
+}
+
+.option>div{
+    flex: 10%; 
+  margin-bottom: 10px;
+  margin-left:10px;
+}
+
+.results{
+    display: flex;
+    flex-wrap:wrap;
+}
+
+.results>div{
+    flex: 10%; 
+  margin-bottom: 10px;
+  margin-left:10px;
+}
+
+.phno{
+  display: flex;
+  flex-wrap:wrap;
+
+}
+.phno>div{
+  flex: 10%; 
+  margin-bottom: 10px;
+  margin-left:10px;
+}
+
+
+.loc{
+  display: flex;
+  flex-wrap:wrap;
+
+}
+
+.loc>div{
+  flex: 10%; 
+  margin-bottom: 10px;
+  margin-left:10px;
+}
+
+.threshold{
+  display: flex;
+  flex-wrap:wrap;
+
+}
+
+.threshold>input{
+  flex: 20%; 
+  margin-bottom: 10px;
+  margin-left:10px;
+}
+
+

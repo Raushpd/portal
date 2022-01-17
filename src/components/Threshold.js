@@ -1,30 +1,33 @@
 import React, { useState, useEffect } from "react";
-import { ref, uploadBytesResumable } from "firebase/storage";
-import { auth } from "./firebase";
 import firebase from "firebase/compat/app"
-import { storage } from "./firebase1";
-import './Home.css';
-import db from "./firebase1";
+
+import db from ".././firebase1";
 import { addDoc, collection, doc, setDoc } from "firebase/firestore";
+
+
+import { ref, uploadBytesResumable } from "firebase/storage";
+import { auth } from ".././firebase";
+import { storage } from ".././firebase1";
+
 import { uploadBytes } from 'firebase/storage'
-import { app } from './firebase1';
-import Result from "./components/Result";
-import Threshold from "./components/Threshold";
-import Location from "./components/Location";
-import PhNumber from './components/PhNumber'
+import { app } from '.././firebase1';
+import Location from "./Location";
+import PhNumber from './PhNumber'
 import { upload } from "@testing-library/user-event/dist/upload";
 
-function Home() {
+function Threshold(props) {
 
 
+    const [customerBroken, setCustomerBroken] = useState('');
+    const [customerThreshold, setCustomerThreshold] = useState('');
+    const [comments, setComments] = useState("");
     const [customerPurpose, setCustomerPurpose] = useState("");
     const [customerUnit, setCustomerUnit] = useState(0);
     const [customerField_type, setustomerField_type] = useState(0);
     const [customerFields, setCustomerFields] = useState("");
-    var [customerNumber, setCustomerNumber] = useState("");
-    const [comments, setComments] = useState("");
-    const [customerEnable, setCustomerEnable] = useState(false);
+    var [customerNumber, setCustomerNumber] = useState();
     const [customerUser, setCustomerUser] = useState("");
+
 
 
 
@@ -60,7 +63,7 @@ function Home() {
     var str4;
 
 
-
+    const [class1, setClass1] = useState("")
     const [string2, setString2] = useState("");
     const [string, setString] = useState("");
     const [string1, setString1] = useState("");
@@ -72,6 +75,7 @@ function Home() {
     const [crop, setCrop] = useState('');
     const [machine, setMachine] = useState('');
     const [variety, setVariety] = useState('');
+
     function selectedMode(e) {
         if (e.target.value !== "Select") {
             setValue1(e.target.value);
@@ -95,17 +99,12 @@ function Home() {
 
     }
 
-    const clear = () => {
-        setCompany("")
-        setMachine("")
-        setCrop("")
-        setVariety("")
-        setValue1("")
-        setValue2("")
-        setCustomerUser("")
-        setValue3("")
+    function selectedClass(e) {
+        if (e.target.value !== "Select") {
+            setClass1(e.target.value);
+        }
+        console.log(e.target.value)
 
-        setComments("")
     }
 
     const [imageName1, setImageName1] = useState("");
@@ -231,9 +230,9 @@ function Home() {
         });
 
     };
-    var name1 = string + "_" + company + "_" + crop + "_" + variety + "_" + machine + "_" + value1 + "_" + value3 + "_" + value2 + "." + string2;
+    var name1 = props.string + "_" + company + "_" + crop + "_" + machine + "_" + variety + "_" + value1 + "_" + value2 + "." + props.string2;
     // setNewname1(name1)
-    var name2 = string1 + "_" + company + "_" + crop + "_" + variety + "_" + machine + "_" + value1 + "_" + value3 + "_" + value2 + "." + string4;
+    var name2 = props.string1 + "_" + company + "_" + crop + "_" + machine + "_" + variety + "_" + value1 + "_" + value2 + "." + props.string4;
     // setNewname2(name2)
 
     const [newname1, setNewname1] = useState(name1);
@@ -242,6 +241,22 @@ function Home() {
     var name_1 = name1;
     var name_2 = name2;
 
+
+
+    const clear = () => {
+        setCompany("")
+        setMachine("")
+        setCrop("")
+        setVariety("")
+        setValue1("")
+        setValue2("")
+        setCustomerUser("")
+        setValue3("")
+        setComments("")
+        setCustomerThreshold("")
+        setCustomerBroken("")
+        setClass1("")
+    }
 
     const formHandler1 = (e) => {
         e.preventDefault();
@@ -256,35 +271,6 @@ function Home() {
     };
 
 
-    function user_drop(event) {
-        if (event.target.value !== "Select") {
-            setCustomerUser(event.target.value);
-        }
-    }
-
-    function company_drop(event) {
-        if (event.target.value !== "Select") {
-            setCompany(event.target.value);
-        }
-    }
-
-    function machine_drop(event) {
-        if (event.target.value !== "Select") {
-            setMachine(event.target.value);
-        }
-    }
-
-    function crop_drop(event) {
-        if (event.target.value !== "Select") {
-            setCrop(event.target.value);
-        }
-    }
-
-    function variety_drop(event) {
-        if (event.target.value !== "Select") {
-            setVariety(event.target.value);
-        }
-    }
     const [user1, setUser1] = useState([]);
     const [machine1, setMachine1] = useState([]);
     const [company1, setCompany1] = useState([]);
@@ -292,7 +278,7 @@ function Home() {
     const [variety1, setVariety1] = useState([]);
 
     useEffect(() => {
-        db.collection("py_data").onSnapshot((snapshot) => {
+        db.collection("threshold_dev").onSnapshot((snapshot) => {
             setCustomersData1(
                 snapshot.docs.map((doc) => ({
                     id: doc.id,
@@ -301,8 +287,7 @@ function Home() {
             )
         })
         console.log({ customersData1 })
-
-        db.collection("modal_data").onSnapshot((snapshot) => {
+        db.collection("threshold_dev").onSnapshot((snapshot) => {
             setCustomersData2(
                 snapshot.docs.map((doc) => ({
                     id: doc.id,
@@ -311,6 +296,7 @@ function Home() {
             )
         })
         console.log({ customersData2 })
+
 
         db.collection("field_user").onSnapshot((snapshot) => {
             setUser1(
@@ -356,84 +342,135 @@ function Home() {
                 }))
             )
         })
-
-
     }, [])
+
+
+
     const mySet1 = new Set()
-    const mySet2 = new Set()
+    var tempName2 = props.string1 + "_" + company + "_" + crop + "_" + machine + "_" + variety + "_" + value1 + "_" + value2 + "." + props.string4;
 
-    var tempName2 = string1 + "_" + company + "_" + crop + "_" + variety + "_" + machine + "_" + value1 + "_" + value3 + "_" + value2 + "." + string4;
+    var tempName1 = props.string + "_" + company + "_" + crop + "_" + machine + "_" + variety + "_" + value1 + "_" + value2 + "." + props.string2;
+    // const upload1 = () => {
+    //     setNewname1(name_1)
+    //     if (props.image1 == null)
+    //         return;
+    //     const storageRef = ref(storage, `/py_file/${JSON.stringify(name1)}`)
+    //     console.log(typeof (newname1))
+    //     if (tempName2 !== "______.") {
+    //         uploadBytes(storageRef, props.image1).then((snapshot) => {
+    //             console.log('Uploaded a blob or file!');
+    //         });
+    //     }
 
-    var tempName1 = string + "_" + company + "_" + crop + "_" + variety + "_" + machine + "_" + value1 + "_" + value3 + "_" + value2 + "." + string2;
-    // console.log(tempName1)
-    // console.log(JSON.stringify(tempName1))
-    console.log(tempName1)
-    const upload1 = () => {
-        setNewname1(tempName1)
-        if (image1 == null)
-            return;
-        // console.log(image);
-
-
-
-        // console.log(tempName1)
-
-        if (image1 === null) {
-            console.log("hiiii")
-            return;
-        }
-        // console.log(storage)
-        const storageRef = ref(storage, `/py_file/${JSON.stringify(newname1)}`)
-        if (tempName1 !== "______.") {
-            uploadBytes(storageRef, image1).then((snapshot) => {
-                console.log('Uploaded a blob or file!');
-            });
-        }
-
-        console.log(tempName1)
-        if (!mySet1.has(tempName1)) {
-            if (tempName1 !== "______.") {
-                mySet1.add(tempName1)
-                db.collection("py_data").add({
-                    name: tempName1,
-                    time: time1,
-                    release_type: value3,
-                    comment: comments,
-                    // comments:
-                });
-            }
-        }
+    //     console.log(tempName1)
+    //     if (!mySet1.has(tempName1)) {
 
 
-        setImageName1("");
-        setImageTime1("");
+    //         if (tempName1 !== "______.") {
+    //             mySet1.add(tempName1)
+    //             db.collection("py_data_threshold").add({
+    //                 name: tempName1,
+    //                 time: props.time1,
+    //                 release_type: value2,
+    //                 comment: comments,
+    //                 // comments:
+    //             });
+    //         }
+    //     }
+
+
+    //     setImageName1("");
+    //     setImageTime1("");
+
+    // }
+
+
+
+    const upload = () => {
+        const storageRef = ref(storage, `/threshold_dev/`)
+
+        db.collection("threshold_dev").add({
+            company: company,
+            user: customerUser,
+            crop: crop,
+            variety: variety,
+            machine: machine,
+            release_type: value3,
+            mode: value1,
+            purpose: value2,
+            time: currDate,
+
+            comment: comments,
+
+        });
     }
 
+    var today = new Date();
+    var date = today.getDate() + '/' + (today.getMonth() + 1) + '/' + today.getFullYear();
+    var currTime = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+
+
+    var currDate = date + " " + currTime
+
+
+
+
+
+    function user_drop(event) {
+        if (event.target.value !== "Select") {
+            setCustomerUser(event.target.value);
+        }
+    }
+
+    function company_drop(event) {
+        if (event.target.value !== "Select") {
+            setCompany(event.target.value);
+        }
+    }
+
+    function machine_drop(event) {
+        if (event.target.value !== "Select") {
+            setMachine(event.target.value);
+        }
+    }
+
+    function crop_drop(event) {
+        if (event.target.value !== "Select") {
+            setCrop(event.target.value);
+        }
+    }
+
+    function variety_drop(event) {
+        if (event.target.value !== "Select") {
+            setVariety(event.target.value);
+        }
+    }
+
+    const mySet2 = new Set()
+
+    // console.log(tempName2)
 
     const upload2 = () => {
-        console.log(tempName2)
-        setNewname2(tempName2)
-        if (image2 == null) {
-            console.log("hiiii")
+        setNewname2(name_2)
+        if (props.image2 == null)
             return;
-        }
         // console.log(image);
-        const storageRef = ref(storage, `/modal_file/${JSON.stringify(newname2)}`)
-        if (newname2 !== "______.") {
-            uploadBytes(storageRef, image2).then((snapshot) => {
+        const storageRef = ref(storage, `/modal_file/${JSON.stringify(name2)}`)
+        if (tempName2 !== "______.") {
+            uploadBytes(storageRef, props.image2).then((snapshot) => {
                 console.log('Uploaded a blob or file!');
             });
         }
 
 
 
-        if (!mySet2.has(newname2)) {
-            if (newname2 !== "______.") {
-                mySet2.add(newname2)
-                db.collection("modal_data").add({
-                    name: newname2,
-                    time: time2,
-                    release_type: value3,
+        if (!mySet2.has(tempName2)) {
+            if (tempName2 !== "______.") {
+                mySet2.add(tempName2)
+                db.collection("modal_data_threshold").add({
+                    name: tempName2,
+                    time: props.time2,
+                    release_type: value2,
                     comment: comments,
                     // comments:
                 });
@@ -443,6 +480,101 @@ function Home() {
         setImageName2("");
         setImageTime2("");
     }
+
+
+
+
+
+    function show_log1() {
+        var show_log1 = document.getElementById("table1");
+        if (show_log1.style.display === "none") {
+            show_log1.style.display = "block";
+        } else {
+            show_log1.style.display = "none";
+        }
+
+    }
+
+
+    function show_log2() {
+        var show_log2 = document.getElementById("table2");
+        if (show_log2.style.display === "none") {
+            show_log2.style.display = "block";
+        } else {
+            show_log2.style.display = "none";
+        }
+        console.log("hii")
+
+    }
+
+    var count = 1;
+    async function addDoc1() {
+        let number = document.getElementById("number")
+        if (number.value > 100 || number.value < 0) {
+            document.getElementById("message1").innerHTML = "Input range is 1 to 100"
+
+        }
+        else {
+
+            // var ref = doc(db, "threshold_dev", props.company)
+            var ref = db
+                .collection("threshold_dev")
+                .doc(company)
+                .collection(customerUser).doc();
+
+            const docRef = await setDoc(
+                ref, {
+                file_name: newname1,
+                crop: crop,
+                variety: variety,
+                machine: machine,
+                functionality: value2,
+                mode: value1,
+                time: props.time1,
+                comments: comments,
+
+            }
+            )
+        }
+        count = count + 1;
+        setCustomerBroken('');
+        setCustomerThreshold('');
+    }
+
+    async function addDoc2() {
+        let number = document.getElementById("number")
+        if (number.value > 100 || number.value < 0) {
+            document.getElementById("message2").innerHTML = "Input range is 1 to 100"
+
+        }
+        else {
+
+            // var ref = doc(db, "threshold_dev", props.company)
+            var ref = db
+                .collection("threshold_dev")
+                .doc(company)
+                .collection(customerUser).doc();
+
+            const docRef = await setDoc(
+                ref, {
+                file_name: newname2,
+                crop: crop,
+                variety: variety,
+                machine: machine,
+                functionality: value2,
+                mode: value1,
+                time: props.time2,
+                comments: comments,
+
+            }
+            )
+        }
+        count = count + 1;
+        setCustomerBroken('');
+        setCustomerThreshold('');
+    }
+
+
     function check(elem) {
         // use one of possible conditions
         // if (elem.value == 'Other')
@@ -453,29 +585,29 @@ function Home() {
         var machine_select = document.getElementById("machineSelect");
         if (comp_select.value === "Other") {
             console.log("hii")
-            document.getElementById("companyresult").style.display = 'block';
+            document.getElementById("companythres").style.display = 'block';
         } else {
-            document.getElementById("companyresult").style.display = 'none';
+            document.getElementById("companythres").style.display = 'none';
         }
         if (user_select.value === "Other") {
-            document.getElementById("userresult").style.display = 'block';
+            document.getElementById("userthres").style.display = 'block';
         } else {
-            document.getElementById("userresult").style.display = 'none';
+            document.getElementById("userthres").style.display = 'none';
         }
         if (crop_select.value === "Other") {
-            document.getElementById("cropresult").style.display = 'block';
+            document.getElementById("cropthres").style.display = 'block';
         } else {
-            document.getElementById("cropresult").style.display = 'none';
+            document.getElementById("cropthres").style.display = 'none';
         }
         if (variety_select.value === "Other") {
-            document.getElementById("varietyresult").style.display = 'block';
+            document.getElementById("varietythres").style.display = 'block';
         } else {
-            document.getElementById("varietyresult").style.display = 'none';
+            document.getElementById("varietythres").style.display = 'none';
         }
         if (machine_select.value === "Other") {
-            document.getElementById("machineresult").style.display = 'block';
+            document.getElementById("machinethres").style.display = 'block';
         } else {
-            document.getElementById("machineresult").style.display = 'none';
+            document.getElementById("machinethres").style.display = 'none';
         }
     }
     function companyCall(e) {
@@ -548,8 +680,8 @@ function Home() {
 
             // comments:
         });
+        document.getElementById("companythres").style.display = 'none';
         setCompany("")
-        setNewCompany("")
 
 
 
@@ -567,7 +699,7 @@ function Home() {
 
             // comments:
         });
-        document.getElementById("userresult").style.display = 'none';
+        document.getElementById("userthres").style.display = 'none';
         setCustomerUser("")
 
     }
@@ -579,13 +711,12 @@ function Home() {
             newCropVal = document.createTextNode(cropTxtVal);
         setNewCrop(newCropVal)
 
-
         db.collection("field_crop").add({
             name: newCrop,
 
             // comments:
         });
-        document.getElementById("cropresult").style.display = 'none';
+        document.getElementById("cropthres").style.display = 'none';
         setCrop("")
 
     }
@@ -603,7 +734,7 @@ function Home() {
 
             // comments:
         });
-        document.getElementById("varietyresult").style.display = 'none';
+        document.getElementById("varietythres").style.display = 'none';
         setVariety("")
 
     }
@@ -624,25 +755,18 @@ function Home() {
 
             // comments:
         });
-        document.getElementById("machineresult").style.display = 'none';
+        document.getElementById("machinethres").style.display = 'none';
         setMachine("")
 
     }
 
 
 
-
-
     return (
-        <div id="main">
 
-            <p id="signout_button">
-                <button onClick={() => auth.signOut()}>Sign out</button>
-            </p>
+        <div className="App">
 
-
-
-            <h2 style={{ textAlign: "center" }}>Upload Module Files</h2>
+            {/* <h2 style={{ textAlign: "center" }}>Upload Module Files</h2>
 
             <div id="files">
                 <div id="py">
@@ -664,9 +788,11 @@ function Home() {
 
                     </form>
                 </div>
-            </div>
+            </div> */}
 
-            <div className="user_form">
+
+
+            <div className="user_form2">
                 <div>
                     <h4 style={{ textDecoration: "underline" }}>Select Company</h4>
                     <select type="text" placeholder="Company's Name" onChange={company_drop}
@@ -785,6 +911,7 @@ function Home() {
                 <div>
                     <h4 style={{ textDecoration: "underline" }}>Choose the Mode</h4>
                     <select type="text" onChange={selectedMode} value={value1}>
+
                         <option>Select</option>
                         <option value="Online">Online</option>
                         <option value="Offline">Offline</option>
@@ -808,6 +935,7 @@ function Home() {
                     <h4 style={{ textDecoration: "underline" }}>Choose the Purpose</h4>
                     <select onChange={selectedPurpose} value={value2}>
 
+
                         <option>Select</option>
                         <option>Object Detection</option>
                         <option>Classification</option>
@@ -817,270 +945,91 @@ function Home() {
                     <h4>You have selected-- {value2}</h4>
                 </div>
 
+
+                <div>
+                    <h4 style={{ textDecoration: "underline" }}>Choose the Class</h4>
+                    <select onChange={selectedClass} value={class1}>
+
+                        <option>Select</option>
+                        <option>Class 1</option>
+                        <option>Class 2</option>
+                        <option>Class 3</option>
+                    </select>
+                    <h4>You have selected-- {class1}</h4>
+                </div>
             </div>
+            <hr />
+            <hr />
+            <h4>Comments</h4>
             <div className="threshold">
 
                 <input value={comments} onChange={(e) => setComments(e.target.value)} placeholder="Comments"></input>
             </div>
-            <div>
-                <h3 style={{ textAlign: "center" }}>Uplaod History of Py file</h3>
-                <div>
-                    <h4>Name of Py File--> {tempName1}</h4>
-                    <h4>File Type--{type1}
-                    </h4>
-                    <h4>Modified Size--{size1}</h4>
-                    <h4 id="time">Modified Date and Time--{date1} {time1}</h4>
-                </div >
+            {/* <hr />
+            <hr /> */}
+            {/* <div className="threshold">
+                <input
+                    type="number"
+                    placeholder="Number"
+                    id="number"
 
+                />
+                <input
+                    type="number"
+                    placeholder="Broken"
+                    value={customerBroken}
+                    onChange={(e) => setCustomerBroken(e.target.value)}
+                />
 
-                <div id="table1">
-                    <table>
-                        <tr>
-                            <th>Date</th>
-                            <th></th>
-                            <th></th>
-                            <th>Name</th>
-                            <th></th>
-                            <th></th>
-                            <th>Realease Type</th>
-                            <th></th>
-                            <th></th>
-                            <th>Comments</th>
-
-                        </tr>
-
-
-                        {customersData1?.map(({ id, data }) => (
-
-
-                            <tr key={id}>
-
-
-
-                                <td>{data.time}</td>
-                                <td></td>
-                                <td></td>
-                                <td>{data.name}</td>
-                                <td></td>
-                                <td></td>
-                                <td>{data.release_type}</td>
-                                <td></td>
-                                <td></td>
-                                <td>{data.comment}</td>
-
-                            </tr>
-
-
-
-                        ))}
-
-
-                    </table>
-                </div>
-                <button onClick={upload1}>Submit</button>
-                {/* <button onClick={show_log1}>Show Logs</button> */}
-
-                <h3 style={{ textAlign: "center" }}>Uplaod History of Modal file</h3>
-                <div>
-                    <h4> Name of Modal File--> {tempName2}
-                    </h4>
-                    <h4>File Type--{type2}</h4>
-                    <h4>File Size--{size2}</h4>
-                    <h4 id="time">Modified Date and Time--{date2} {time2}</h4>
-                </div>
-
-
-                <div id="table2">
-                    <table>
-                        <tr>
-                            <th>Date</th>
-                            <th></th>
-                            <th></th>
-                            <th>Name</th>
-                            <th></th>
-                            <th></th>
-                            <th>Realease Type</th>
-                            <th></th>
-                            <th></th>
-                            <th>Comments</th>
-                        </tr>
-
-
-                        {customersData2?.map(({ id, data }) => (
-
-
-                            <tr key={id}>
-
-
-                                <td>{data.time}</td>
-                                <td></td>
-                                <td></td>
-                                <td>{data.name}</td>
-                                <td></td>
-                                <td></td>
-                                <td>{data.release_type}</td>
-                                <td></td>
-                                <td></td>
-                                <td>{data.comment}</td>
-                            </tr>
-
-
-
-                        ))}
-
-
-                    </table>
-                </div>
-                <button onClick={upload2}>Submit</button>
-                <div><div>
-                    <p><button onClick={clear}>Clear</button></p>
-                </div></div>
-                <hr />
-                <hr />
-
-                <h3>Update result_config_dev_en</h3>
-
-                <Result />
-                {/* <h2>{image1}</h2> */}
-                <hr />
-                <hr />
-                <h3>Update threshold_dev </h3>
-                <Threshold />
-
-
-                <hr />
-                <hr />
-                <h3>Update valid_location </h3>
-
-                <Location />
-                <hr />
-                <hr />
-                <h3>Update valid_numbers </h3>
-
-                <PhNumber />
-
-
-
-
-            </div >
-            {/* <button onClick={show_log2}>Show Logs</button> */}
-
-
-
-
-            {/* <h2 style={{ textAlign: "center" }}>Upload Module Files</h2>
-
-            <div id="files">
-                <div id="py">
-                    <h3 id="py_text">Select Py File</h3>
-                    <form onSubmit={formHandler1}>
-                        <input type="file" className="input" onChange={handleChange1} required />
-                        <div id="output1"></div>
-
-
-
-                    </form>
-                </div>
-                <div id="modal">
-                    <h3 id="modal_text">Select Modal File</h3>
-                    <form onSubmit={formHandler2}>
-                        <input type="file" className="input" onChange={handleChange2} required />
-                        <div id="output2"></div>
-
-
-                    </form>
-                </div>
-            </div>
-            <hr />
-            <div className="user_form">
-
-                <select type="text" id="company" placeholder="Company's Name" onChange={company_drop}
-                    value={company}>
-                    <option>Select</option>
-                    <option>Comp 1</option>
-                    <option>Comp 2</option>
-                    <option>Comp 3</option>
-                </select>
-                <h5>You have selected----{company}</h5>
-
-
-                <select type="text" id="crop" placeholder="Crop's Name" onChange={crop_drop}
-                    value={crop}>
-                    <option>Select</option>
-                    <option>Crop 1</option>
-                    <option>Crop 2</option>
-                    <option>Crop 3</option>
-                    <option>Crop 4</option>
-                </select>
-                <h5>You have selected----{crop}</h5>
-
-                <select type="text" id="machine" placeholder="Machine's Name" onChange={machine_drop}
-                    value={machine}>
-                    <option>Select</option>
-                    <option>Mach 1</option>
-                    <option>Mach 2</option>
-                    <option>Mach 3</option>
-                    <option>Mach 4</option>
-                </select>
-                <h5>You have selected----{machine}</h5>
-
-                <select type="text" id="variety" placeholder="Variety's Name" onChange={variety_drop}
-                    value={variety}>
-                    <option>Select</option>
-                    <option>Variety 1</option>
-                    <option>Variety 2</option>
-                    <option>Variety 3</option>
-                </select>
-                <h5>You have selected----{variety}</h5>
-
-            </div>
-            <div id="option">
-                <h3 style={{ textAlign: "center" }}>Choose the Mode</h3>
-                <select id="mode" onChange={selectedMode}>
-                    <option>Select</option>
-                    <option value="Online">Online</option>
-                    <option value="Offline">Offline</option>
-                    <option value="Offline">Both</option>
-                </select>
-
-                <h5>You have selected the Mode-->{value1}</h5>
-                <h3 style={{ textAlign: "center" }}>Choose the Puropse</h3>
-                <select id="purpose" onChange={selectedPurpose}>
-                    <option>Select</option>
-                    <option>Dev</option>
-                    <option>Staging</option>
-                    <option>Production</option>
-                </select>
-                <h5>You have selected----{value3}</h5>
-                <h3 style={{ textAlign: "center" }}>Choose the Functionality</h3>
-                <select id="functionality" onChange={selectedFunctionality}>
-                    <option>Select</option>
-                    <option>Object Detection</option>
-                    <option>Classification</option>
-                    <option>Segmentation </option>
-
-                </select>
-
-                <h5>You have selected the Functionality--> {value2}</h5>
-            </div>
-
-            <hr />
-            <hr />
-            <h3 style={{ textAlign: "center" }}>Uplaod History of Py file</h3>
+                <input
+                    type="number"
+                    placeholder="Threshold"
+                    value={customerThreshold}
+                    onChange={(e) => setCustomerThreshold(e.target.value)}
+                />
+                <input value={comments} onChange={(e) => setComments(e.target.value)} placeholder="Comments"></input>
+            </div> */}
+            {/* <h3 style={{ textAlign: "center" }}>Uplaod History of Py file</h3>
             <div>
                 <h4>Final Name of Py File--> {string}_{company}_{crop}_{machine}_{variety}_{value1}_{value2}_{value3}.{string2}</h4>
                 <h4>File Type--{type1}
                 </h4>
                 <h4>Modified Size--{size1}</h4>
                 <h4 id="time">Modified Date and Time--{date1} {time1}</h4>
-            </div >
+            </div > */}
+
+
             <div id="table1">
                 <table>
                     <tr>
-
-                        <th>Name</th>
+                        <th>Date</th>
                         <th></th>
-                        <th>Time</th>
+                        <th></th>
+                        <th>Company</th>
+                        <th></th>
+                        <th></th>
+                        <th>User</th>
+                        <th></th>
+                        <th></th>
+                        <th>Crop</th>
+                        <th></th>
+                        <th></th>
+                        <th>Variety</th>
+                        <th></th>
+                        <th></th>
+                        <th>Machine</th>
+                        <th></th>
+                        <th></th>
+                        <th>Release Date</th>
+                        <th></th>
+                        <th></th>
+                        <th>Mode</th>
+                        <th></th>
+                        <th></th>
+                        <th>Purpose</th>
+                        <th></th>
+                        <th></th>
+                        <th>Comments</th>
                     </tr>
 
 
@@ -1090,11 +1039,35 @@ function Home() {
                         <tr key={id}>
 
 
-                            <td>{data.name}</td>
-                            <td></td>
                             <td>{data.time}</td>
                             <td></td>
-                            <td>{ }</td>
+                            <td></td>
+                            <td>{data.company}</td>
+                            <td></td>
+                            <td></td>
+                            <td>{data.user}</td>
+                            <td></td>
+                            <td></td>
+                            <td>{data.crop}</td>
+                            <td></td>
+                            <td></td>
+
+                            <td>{data.variety}</td>
+                            <td></td>
+                            <td></td>
+                            <td>{data.machine}</td>
+                            <td></td>
+                            <td></td>
+                            <td>{data.release_type}</td>
+                            <td></td>
+                            <td></td>
+                            <td>{data.mode}</td>
+                            <td></td>
+                            <td></td>
+                            <td>{data.purpose}</td>
+                            <td></td>
+                            <td></td>
+                            <td>{data.comment}</td>
 
                         </tr>
 
@@ -1105,11 +1078,16 @@ function Home() {
 
                 </table>
             </div>
-            <button onClick={upload1}>Upload Py File</button>
+            <button onClick={upload}>Submit</button>
             <button onClick={show_log1}>Show Logs</button>
+            {/* <button onClick={show_log1}>Show Logs</button>
+            <div>
+
+                <button onClick={addDoc1}>Submit</button><div id="message1"></div>
+            </div> */}
 
 
-            <h3 style={{ textAlign: "center" }}>Uplaod History of Modal file</h3>
+            {/* <h3 style={{ textAlign: "center" }}>Uplaod History of Modal file</h3>
             <div>
                 <h4>Final Name of Modal File--> {string1}_{company}_{crop}_{machine}_{variety}_{value1}_{value2}_{value3}.{string4}
                 </h4>
@@ -1118,14 +1096,22 @@ function Home() {
                 <h4 id="time">Modified Date and Time--{date2} {time2}</h4>
 
 
-            </div>
+            </div> */}
+            {/* <div><br></br></div>
             <div id="table2">
                 <table>
                     <tr>
 
                         <th>Name</th>
                         <th></th>
+                        <th></th>
+                        <th>Purpose</th>
+                        <th></th>
+                        <th></th>
                         <th>Time</th>
+                        <th></th>
+                        <th></th>
+                        <th>Comments</th>
                     </tr>
 
 
@@ -1137,8 +1123,16 @@ function Home() {
 
                             <td>{data.name}</td>
                             <td></td>
+                            <td></td>
+                            <td>{data.release_type}</td>
+                            <td></td>
+                            <td></td>
 
                             <td>{data.time}</td>
+                            <td></td>
+                            <td></td>
+                            <td>{data.comment}</td>
+
 
                         </tr>
 
@@ -1150,12 +1144,18 @@ function Home() {
                 </table>
             </div>
             <button onClick={upload2}>Upload Modal File</button>
-            <button onClick={show_log2}>Show Logs</button> */}
+            <button onClick={show_log2}>Show Logs</button>
 
+            <div>
+
+                <button onClick={addDoc2}>Submit</button><div id="message2"></div>
+            </div> */}
+
+            <div>
+                <p><button onClick={clear}>Clear</button></p>
+            </div>
         </div>
-
-    )
-
+    );
 }
 
-export default Home
+export default Threshold

@@ -9,6 +9,7 @@ const Signup = () => {
         e.preventDefault();
         auth.createUserWithEmailAndPassword(
             emailRef.current.value,
+
             passwordRef.current.value
         ).then(user => {
             console.log(user)

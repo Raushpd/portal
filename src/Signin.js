@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 import { auth } from './firebase';
-import Signup from './Signup';
+
 
 const Signin = () => {
     const emailRef = useRef(null);
@@ -24,7 +24,7 @@ const Signin = () => {
         ).then(user => {
             console.log(user)
         }).catch(err => {
-            console.log(err)
+            console.log("user not found")
         })
     }
     return (
@@ -35,10 +35,9 @@ const Signin = () => {
                 <input ref={emailRef} type="email" />
                 <input ref={passwordRef} type="password" />
                 <button onClick={signIn}>Sign in </button>
-                <h6>Not yet register? <span onClick={signUp} className="signin__link">Sign up</span></h6>
+                <h6>Not yet register? <button onClick={signUp} className="signin__link">Sign up</button></h6>
             </form>
         </div>
     )
 }
-
 export default Signin

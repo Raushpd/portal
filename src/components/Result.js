@@ -1,30 +1,25 @@
 import React, { useState, useEffect } from "react";
-import { ref, uploadBytesResumable } from "firebase/storage";
-import { auth } from "./firebase";
 import firebase from "firebase/compat/app"
-import { storage } from "./firebase1";
-import './Home.css';
-import db from "./firebase1";
-import { addDoc, collection, doc, setDoc } from "firebase/firestore";
+
+import db from ".././firebase1";
+import { collection, doc, setDoc } from "firebase/firestore";
+
+
+import { ref, uploadBytesResumable } from "firebase/storage";
+import { auth } from ".././firebase";
+import { storage } from ".././firebase1";
+
 import { uploadBytes } from 'firebase/storage'
-import { app } from './firebase1';
-import Result from "./components/Result";
-import Threshold from "./components/Threshold";
-import Location from "./components/Location";
-import PhNumber from './components/PhNumber'
+import { app } from '.././firebase1';
 import { upload } from "@testing-library/user-event/dist/upload";
 
-function Home() {
-
-
+function Result() {
     const [customerPurpose, setCustomerPurpose] = useState("");
     const [customerUnit, setCustomerUnit] = useState(0);
-    const [customerField_type, setustomerField_type] = useState(0);
+    const [customerField_type, setustomerField_type] = useState("");
     const [customerFields, setCustomerFields] = useState("");
-    var [customerNumber, setCustomerNumber] = useState("");
+    var [customerNumber, setCustomerNumber] = useState();
     const [comments, setComments] = useState("");
-    const [customerEnable, setCustomerEnable] = useState(false);
-    const [customerUser, setCustomerUser] = useState("");
 
 
 
@@ -68,10 +63,40 @@ function Home() {
     const [value1, setValue1] = useState('');
     const [value2, setValue2] = useState('');
     const [value3, setValue3] = useState('');
+    const [value4, setValue4] = useState('');
+    const [value5, setValue5] = useState('');
+    const [value6, setValue6] = useState('');
     const [company, setCompany] = useState('');
+    const [customerUser, setCustomerUser] = useState("");
     const [crop, setCrop] = useState('');
     const [machine, setMachine] = useState('');
     const [variety, setVariety] = useState('');
+
+    function selectePurpose(e) {
+        if (e.target.value !== "Select") {
+            setPurp(e.target.value);
+        }
+        console.log(e.target.value)
+
+    }
+    function selectedUnit(e) {
+        if (e.target.value !== "Select") {
+            setUnit(e.target.value);
+        }
+        console.log(e.target.value)
+
+    }
+    function selectedFields(e) {
+        if (e.target.value !== "Select") {
+            setValue3(e.target.value);
+        }
+        console.log(e.target.value)
+
+    }
+
+
+
+
     function selectedMode(e) {
         if (e.target.value !== "Select") {
             setValue1(e.target.value);
@@ -87,25 +112,12 @@ function Home() {
 
     }
 
-    function selectedPurpose(e) {
+    function selectedLang(e) {
         if (e.target.value !== "Select") {
             setValue2(e.target.value);
         }
         console.log(e.target.value)
 
-    }
-
-    const clear = () => {
-        setCompany("")
-        setMachine("")
-        setCrop("")
-        setVariety("")
-        setValue1("")
-        setValue2("")
-        setCustomerUser("")
-        setValue3("")
-
-        setComments("")
     }
 
     const [imageName1, setImageName1] = useState("");
@@ -126,6 +138,8 @@ function Home() {
     var [time1, setTime1] = useState("");
     const [type2, setType2] = useState("");
     const [size2, setSize2] = useState("");
+    const [purp, setPurp] = useState("");
+    const [unit, setUnit] = useState("");
 
     var fileSize1;
     var modDate1;
@@ -138,102 +152,103 @@ function Home() {
     let txt7 = "";
     let txt8 = "";
     let text3 = "";
-    let handleChange1 = e => {
-        setImage1(e.target.files[0])
-        var files = e.target.files;
-        var filesArray = [].slice.call(files);
-        filesArray.forEach(e => {
+    // 
+    // let handleChange1 = e => {
+    //     setImage1(e.target.files[0])
+    //     var files = e.target.files;
+    //     var filesArray = [].slice.call(files);
+    //     filesArray.forEach(e => {
 
-            console.log(e.size);
-            console.log(e.lastModifiedDate);
-            console.log(e.type);
-            fileSize1 = e.size
-            setSize1(fileSize1);
-            modDate1 = e.lastModifiedDate
-            setDate1(modDate1);
-            fileType1 = e.type
-            setType1(fileType1);
-            str = e.name;
-            str4 = str.substring(str.indexOf(".") + 1);
-            str = str.substring(0, str.indexOf("."));
-            setString(str);
-            setString2(str4);
+    //         console.log(e.size);
+    //         console.log(e.lastModifiedDate);
+    //         console.log(e.type);
+    //         fileSize1 = e.size
+    //         setSize1(fileSize1);
+    //         modDate1 = e.lastModifiedDate
+    //         setDate1(modDate1);
+    //         fileType1 = e.type
+    //         setType1(fileType1);
+    //         str = e.name;
+    //         str4 = str.substring(str.indexOf(".") + 1);
+    //         str = str.substring(0, str.indexOf("."));
+    //         setString(str);
+    //         setString2(str4);
 
-            txt1 = JSON.stringify(modDate1)
-            txt6 = txt1.substring(1, txt1.indexOf("T"))
-            txt7 = txt1.substring(txt1.indexOf("T") + 1)
-            txt8 = txt7.substring(0, txt7.length - 2)
+    //         txt1 = JSON.stringify(modDate1)
+    //         txt6 = txt1.substring(1, txt1.indexOf("T"))
+    //         txt7 = txt1.substring(txt1.indexOf("T") + 1)
+    //         txt8 = txt7.substring(0, txt7.length - 2)
 
-            console.log(txt6)
-            setDate1(txt6)
-            setTime1(txt8)
-            text3 = txt6 + " " + txt8;
-            setText4(text3)
-            setNewname1(name1)
-            console.log(newname1)
-            setImageName1(name1);
-            setImageTime1(text3);
-            console.log(imageName1)
+    //         console.log(txt6)
+    //         setDate1(txt6)
+    //         setTime1(txt8)
+    //         text3 = txt6 + " " + txt8;
+    //         setText4(text3)
+    //         setNewname1(name1)
+    //         console.log(newname1)
+    //         setImageName1(name1);
+    //         setImageTime1(text3);
+    //         console.log(imageName1)
 
-            console.log(imageTime1)
-
-
-        });
-    };
+    //         console.log(imageTime1)
 
 
-    var txt2 = '';
-    var txt3 = '';
-    var txt4 = '';
-    var txt5 = '';
-    var text = '';
-    const [arr2, setArr2] = useState([])
-    let handleChange2 = e => {
-
-        setImage2(e.target.files[0])
-        var files2 = e.target.files;
-        var filesArray2 = [].slice.call(files2);
-        filesArray2.forEach(e => {
-
-            console.log(e.size);
-            console.log(e.lastModifiedDate);
-            console.log(typeof (e.lastModifiedDate))
-            console.log(e.type);
-            fileSize2 = e.size
-            setSize2(fileSize2);
-            modDate2 = e.lastModifiedDate
-            console.log(typeof (modDate2))
-            // setDate2(modDate2);
-            fileType2 = e.type
-            setType2(fileType2);
-            str2 = e.name;
-            str3 = str2.substring(str2.indexOf(".") + 1);
-            str2 = str2.substring(0, str2.indexOf("."));
-            setString1(str2);
-            setString4(str3);
-
-            txt2 = JSON.stringify(modDate2)
-            txt3 = txt2.substring(1, txt2.indexOf("T"))
-            txt4 = txt2.substring(txt2.indexOf("T") + 1)
-            txt5 = txt4.substring(0, txt4.length - 2)
-
-            console.log(txt5)
-            setDate2(txt3)
-            setTime2(txt5)
-            text = txt3 + " " + txt5;
-            setText1(text)
-            setNewname2(name2)
-            setImageName2(name2);
-            setImageTime2(text);
+    //     });
+    // };
 
 
+    // var txt2 = '';
+    // var txt3 = '';
+    // var txt4 = '';
+    // var txt5 = '';
+    // var text = '';
+    // const [arr2, setArr2] = useState([])
+    // let handleChange2 = e => {
 
-        });
+    //     setImage2(e.target.files[0])
+    //     var files2 = e.target.files;
+    //     var filesArray2 = [].slice.call(files2);
+    //     filesArray2.forEach(e => {
 
-    };
-    var name1 = string + "_" + company + "_" + crop + "_" + variety + "_" + machine + "_" + value1 + "_" + value3 + "_" + value2 + "." + string2;
+    //         console.log(e.size);
+    //         console.log(e.lastModifiedDate);
+    //         console.log(typeof (e.lastModifiedDate))
+    //         console.log(e.type);
+    //         fileSize2 = e.size
+    //         setSize2(fileSize2);
+    //         modDate2 = e.lastModifiedDate
+    //         console.log(typeof (modDate2))
+    //         // setDate2(modDate2);
+    //         fileType2 = e.type
+    //         setType2(fileType2);
+    //         str2 = e.name;
+    //         str3 = str2.substring(str2.indexOf(".") + 1);
+    //         str2 = str2.substring(0, str2.indexOf("."));
+    //         setString1(str2);
+    //         setString4(str3);
+
+    //         txt2 = JSON.stringify(modDate2)
+    //         txt3 = txt2.substring(1, txt2.indexOf("T"))
+    //         txt4 = txt2.substring(txt2.indexOf("T") + 1)
+    //         txt5 = txt4.substring(0, txt4.length - 2)
+
+    //         console.log(txt5)
+    //         setDate2(txt3)
+    //         setTime2(txt5)
+    //         text = txt3 + " " + txt5;
+    //         setText1(text)
+    //         setNewname2(name2)
+    //         setImageName2(name2);
+    //         setImageTime2(text);
+
+
+
+    //     });
+
+    // };
+    var name1 = string + "_" + company + "_" + crop + "_" + machine + "_" + variety + "_" + value1 + "_" + value2 + "." + string2;
     // setNewname1(name1)
-    var name2 = string1 + "_" + company + "_" + crop + "_" + variety + "_" + machine + "_" + value1 + "_" + value3 + "_" + value2 + "." + string4;
+    var name2 = string1 + "_" + company + "_" + crop + "_" + machine + "_" + variety + "_" + value1 + "_" + value2 + "." + string4;
     // setNewname2(name2)
 
     const [newname1, setNewname1] = useState(name1);
@@ -242,6 +257,26 @@ function Home() {
     var name_1 = name1;
     var name_2 = name2;
 
+
+
+    const clear = () => {
+        setCompany("")
+        setMachine("")
+        setCrop("")
+        setVariety("")
+        setValue1("")
+        setValue2("")
+        setCustomerUser("")
+        setValue3("")
+        setCustomerNumber("")
+        setCustomerPurpose("")
+        setCustomerUnit("")
+        setustomerField_type("")
+        setCustomerFields("")
+        setPurp("")
+        setUnit("")
+        setComments("")
+    }
 
     const formHandler1 = (e) => {
         e.preventDefault();
@@ -254,45 +289,19 @@ function Home() {
         const file = e.target[0].files[0];
 
     };
+    var tempName2 = string1 + "_" + company + "_" + crop + "_" + machine + "_" + variety + "_" + value1 + "_" + value2 + "." + string4;
 
+    var tempName1 = string + "_" + company + "_" + crop + "_" + machine + "_" + variety + "_" + value1 + "_" + value2 + "." + string2;
 
-    function user_drop(event) {
-        if (event.target.value !== "Select") {
-            setCustomerUser(event.target.value);
-        }
-    }
-
-    function company_drop(event) {
-        if (event.target.value !== "Select") {
-            setCompany(event.target.value);
-        }
-    }
-
-    function machine_drop(event) {
-        if (event.target.value !== "Select") {
-            setMachine(event.target.value);
-        }
-    }
-
-    function crop_drop(event) {
-        if (event.target.value !== "Select") {
-            setCrop(event.target.value);
-        }
-    }
-
-    function variety_drop(event) {
-        if (event.target.value !== "Select") {
-            setVariety(event.target.value);
-        }
-    }
     const [user1, setUser1] = useState([]);
     const [machine1, setMachine1] = useState([]);
     const [company1, setCompany1] = useState([]);
     const [crop1, setCrop1] = useState([]);
     const [variety1, setVariety1] = useState([]);
 
+
     useEffect(() => {
-        db.collection("py_data").onSnapshot((snapshot) => {
+        db.collection(" result_config_dev_en").onSnapshot((snapshot) => {
             setCustomersData1(
                 snapshot.docs.map((doc) => ({
                     id: doc.id,
@@ -301,16 +310,6 @@ function Home() {
             )
         })
         console.log({ customersData1 })
-
-        db.collection("modal_data").onSnapshot((snapshot) => {
-            setCustomersData2(
-                snapshot.docs.map((doc) => ({
-                    id: doc.id,
-                    data: doc.data()
-                }))
-            )
-        })
-        console.log({ customersData2 })
 
         db.collection("field_user").onSnapshot((snapshot) => {
             setUser1(
@@ -357,69 +356,103 @@ function Home() {
             )
         })
 
-
     }, [])
+
     const mySet1 = new Set()
-    const mySet2 = new Set()
+    const upload = () => {
+        const storageRef = ref(storage, `/ result_config_dev_en/`)
 
-    var tempName2 = string1 + "_" + company + "_" + crop + "_" + variety + "_" + machine + "_" + value1 + "_" + value3 + "_" + value2 + "." + string4;
+        db.collection(" result_config_dev_en").add({
+            company: company,
+            user: customerUser,
+            crop: crop,
+            variety: variety,
+            machine: machine,
+            app_lang: value2,
+            release_type: value3,
+            mode: value1,
+            purpose: purp,
+            unit: unit,
+            fields: customerFields,
+            field_type: customerField_type,
+            time: currDate,
 
-    var tempName1 = string + "_" + company + "_" + crop + "_" + variety + "_" + machine + "_" + value1 + "_" + value3 + "_" + value2 + "." + string2;
-    // console.log(tempName1)
-    // console.log(JSON.stringify(tempName1))
-    console.log(tempName1)
-    const upload1 = () => {
-        setNewname1(tempName1)
-        if (image1 == null)
-            return;
-        // console.log(image);
+            comment: comments,
+
+        });
+    }
+
+    var today = new Date();
+    var date = today.getDate() + '/' + (today.getMonth() + 1) + '/' + today.getFullYear();
+    var currTime = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+
+
+    var currDate = date + " " + currTime
 
 
 
-        // console.log(tempName1)
 
-        if (image1 === null) {
-            console.log("hiiii")
-            return;
-        }
-        // console.log(storage)
-        const storageRef = ref(storage, `/py_file/${JSON.stringify(newname1)}`)
-        if (tempName1 !== "______.") {
-            uploadBytes(storageRef, image1).then((snapshot) => {
-                console.log('Uploaded a blob or file!');
-            });
-        }
-
-        console.log(tempName1)
-        if (!mySet1.has(tempName1)) {
-            if (tempName1 !== "______.") {
-                mySet1.add(tempName1)
-                db.collection("py_data").add({
-                    name: tempName1,
-                    time: time1,
-                    release_type: value3,
-                    comment: comments,
-                    // comments:
-                });
-            }
+    function show_log1() {
+        var show_log1 = document.getElementById("table1");
+        if (show_log1.style.display === "none") {
+            show_log1.style.display = "block";
+        } else {
+            show_log1.style.display = "none";
         }
 
-
-        setImageName1("");
-        setImageTime1("");
     }
 
 
-    const upload2 = () => {
-        console.log(tempName2)
-        setNewname2(tempName2)
-        if (image2 == null) {
-            console.log("hiiii")
-            return;
+    function show_log2() {
+        var show_log2 = document.getElementById("table2");
+        if (show_log2.style.display === "none") {
+            show_log2.style.display = "block";
+        } else {
+            show_log2.style.display = "none";
         }
+
+    }
+
+    function user_drop(event) {
+        if (event.target.value !== "Select") {
+            setCustomerUser(event.target.value);
+        }
+    }
+
+    function company_drop(event) {
+        if (event.target.value !== "Select") {
+            setCompany(event.target.value);
+        }
+    }
+
+    function machine_drop(event) {
+        if (event.target.value !== "Select") {
+            setMachine(event.target.value);
+        }
+    }
+
+    function crop_drop(event) {
+        if (event.target.value !== "Select") {
+            setCrop(event.target.value);
+        }
+    }
+
+    function variety_drop(event) {
+        if (event.target.value !== "Select") {
+            setVariety(event.target.value);
+        }
+    }
+
+    const mySet2 = new Set()
+
+    // console.log(tempName2)
+    const upload2 = () => {
+        setNewname2(name_2)
+        if (image2 == null)
+            return;
         // console.log(image);
-        const storageRef = ref(storage, `/modal_file/${JSON.stringify(newname2)}`)
-        if (newname2 !== "______.") {
+        const storageRef = ref(storage, `/modal_file/${JSON.stringify(name2)}`)
+        if (tempName2 !== "______.") {
             uploadBytes(storageRef, image2).then((snapshot) => {
                 console.log('Uploaded a blob or file!');
             });
@@ -427,13 +460,13 @@ function Home() {
 
 
 
-        if (!mySet2.has(newname2)) {
-            if (newname2 !== "______.") {
-                mySet2.add(newname2)
-                db.collection("modal_data").add({
-                    name: newname2,
+        if (!mySet2.has(tempName2) || tempName2 !== "______.") {
+            if (tempName2 !== "______.") {
+                mySet2.add(tempName2)
+                db.collection("modal_data_results").add({
+                    name: tempName2,
                     time: time2,
-                    release_type: value3,
+                    release_type: value2,
                     comment: comments,
                     // comments:
                 });
@@ -443,6 +476,96 @@ function Home() {
         setImageName2("");
         setImageTime2("");
     }
+
+    async function addResults1() {
+
+
+        var ref1 = db
+            .collection("result_config_dev_en")
+            .doc(company)
+            .collection(customerUser).doc();
+
+
+        const docRef = await setDoc(
+
+            ref1, {
+            motive: customerPurpose,
+            unit: unit,
+            purpose: purp,
+            Unit: customerUnit,
+            field_type: customerField_type,
+            fields: customerFields,
+            file_name: newname1,
+            crop: crop,
+            variety: variety,
+            machine: machine,
+            functionality: value2,
+            mode: value1,
+            time: time1,
+            comments: comments,
+
+        }
+        )
+
+
+
+
+
+        count = count + 1;
+        console.log(count);
+        setCustomerPurpose("");
+        setCustomerUnit(0);
+        setustomerField_type(0);
+        setCustomerFields("");
+        setCustomerNumber("");
+    }
+
+    async function addResults2() {
+
+
+        var ref1 = db
+            .collection("result_config_dev_en")
+            .doc(company)
+            .collection(customerUser).doc();
+
+
+        const docRef = await setDoc(
+
+            ref1, {
+            motive: customerPurpose,
+            unit: unit,
+            purpose: purp,
+            Unit: customerUnit,
+            field_type: customerField_type,
+            fields: customerFields,
+            file_name: newname2,
+            crop: crop,
+            variety: variety,
+            machine: machine,
+            functionality: value2,
+            mode: value1,
+            time: time2,
+            comments: comments,
+
+        }
+
+        )
+        console.log(newname2)
+
+
+
+
+
+        count = count + 1;
+        console.log(count);
+        setCustomerPurpose("");
+        setCustomerUnit(0);
+        setustomerField_type(0);
+        setCustomerFields("");
+        setCustomerNumber("");
+    }
+
+
     function check(elem) {
         // use one of possible conditions
         // if (elem.value == 'Other')
@@ -548,8 +671,8 @@ function Home() {
 
             // comments:
         });
+        document.getElementById("companyresult").style.display = 'none';
         setCompany("")
-        setNewCompany("")
 
 
 
@@ -629,44 +752,10 @@ function Home() {
 
     }
 
-
-
-
-
     return (
-        <div id="main">
+        <div className="App">
 
-            <p id="signout_button">
-                <button onClick={() => auth.signOut()}>Sign out</button>
-            </p>
-
-
-
-            <h2 style={{ textAlign: "center" }}>Upload Module Files</h2>
-
-            <div id="files">
-                <div id="py">
-                    <h3 id="py_text">Select Py File</h3>
-                    <form onSubmit={formHandler1}>
-                        <input type="file" className="input" onChange={handleChange1} required />
-                        <div id="output1"></div>
-
-
-
-                    </form>
-                </div>
-                <div id="modal">
-                    <h3 id="modal_text">Select Modal File</h3>
-                    <form onSubmit={formHandler2}>
-                        <input type="file" className="input" onChange={handleChange2} required />
-                        <div id="output2"></div>
-
-
-                    </form>
-                </div>
-            </div>
-
-            <div className="user_form">
+            <div className="user_form1">
                 <div>
                     <h4 style={{ textDecoration: "underline" }}>Select Company</h4>
                     <select type="text" placeholder="Company's Name" onChange={company_drop}
@@ -785,6 +874,7 @@ function Home() {
                 <div>
                     <h4 style={{ textDecoration: "underline" }}>Choose the Mode</h4>
                     <select type="text" onChange={selectedMode} value={value1}>
+
                         <option>Select</option>
                         <option value="Online">Online</option>
                         <option value="Offline">Offline</option>
@@ -805,282 +895,126 @@ function Home() {
                     <h4>You have selected-- {value3}</h4>
                 </div>
                 <div>
-                    <h4 style={{ textDecoration: "underline" }}>Choose the Purpose</h4>
-                    <select onChange={selectedPurpose} value={value2}>
+                    <h4 style={{ textDecoration: "underline" }}>Choose the Lang</h4>
+                    <select onChange={selectedLang} value={value2}>
+
 
                         <option>Select</option>
-                        <option>Object Detection</option>
-                        <option>Classification</option>
-                        <option>Segmentation </option>
+                        <option>Lang1</option>
+                        <option>Lang2</option>
+                        <option>Lang3 </option>
+                        <option>Lang4 </option>
 
                     </select>
                     <h4>You have selected-- {value2}</h4>
                 </div>
-
             </div>
-            <div className="threshold">
 
-                <input value={comments} onChange={(e) => setComments(e.target.value)} placeholder="Comments"></input>
-            </div>
-            <div>
-                <h3 style={{ textAlign: "center" }}>Uplaod History of Py file</h3>
+            <hr />
+            <hr />
+
+            <div className="results">
                 <div>
-                    <h4>Name of Py File--> {tempName1}</h4>
-                    <h4>File Type--{type1}
-                    </h4>
-                    <h4>Modified Size--{size1}</h4>
-                    <h4 id="time">Modified Date and Time--{date1} {time1}</h4>
-                </div >
+                    <h4>Purpose</h4>
+                    <select onChange={selectePurpose} value={purp}>
 
+                        <option>Select</option>
+                        <option>All</option>
+                        <option>Internal</option>
+                        <option>Demo </option>
 
-                <div id="table1">
-                    <table>
-                        <tr>
-                            <th>Date</th>
-                            <th></th>
-                            <th></th>
-                            <th>Name</th>
-                            <th></th>
-                            <th></th>
-                            <th>Realease Type</th>
-                            <th></th>
-                            <th></th>
-                            <th>Comments</th>
-
-                        </tr>
-
-
-                        {customersData1?.map(({ id, data }) => (
-
-
-                            <tr key={id}>
-
-
-
-                                <td>{data.time}</td>
-                                <td></td>
-                                <td></td>
-                                <td>{data.name}</td>
-                                <td></td>
-                                <td></td>
-                                <td>{data.release_type}</td>
-                                <td></td>
-                                <td></td>
-                                <td>{data.comment}</td>
-
-                            </tr>
-
-
-
-                        ))}
-
-
-                    </table>
+                    </select>
                 </div>
-                <button onClick={upload1}>Submit</button>
-                {/* <button onClick={show_log1}>Show Logs</button> */}
-
-                <h3 style={{ textAlign: "center" }}>Uplaod History of Modal file</h3>
                 <div>
-                    <h4> Name of Modal File--> {tempName2}
-                    </h4>
-                    <h4>File Type--{type2}</h4>
-                    <h4>File Size--{size2}</h4>
-                    <h4 id="time">Modified Date and Time--{date2} {time2}</h4>
+                    <h4>Unit</h4>
+                    <select onChange={selectedUnit} value={unit}>
+
+                        <option>Select</option>
+                        <option>Quintal</option>
+                        <option>KG</option>
+                        <option>Ton</option>
+
+                    </select>
                 </div>
-
-
-                <div id="table2">
-                    <table>
-                        <tr>
-                            <th>Date</th>
-                            <th></th>
-                            <th></th>
-                            <th>Name</th>
-                            <th></th>
-                            <th></th>
-                            <th>Realease Type</th>
-                            <th></th>
-                            <th></th>
-                            <th>Comments</th>
-                        </tr>
-
-
-                        {customersData2?.map(({ id, data }) => (
-
-
-                            <tr key={id}>
-
-
-                                <td>{data.time}</td>
-                                <td></td>
-                                <td></td>
-                                <td>{data.name}</td>
-                                <td></td>
-                                <td></td>
-                                <td>{data.release_type}</td>
-                                <td></td>
-                                <td></td>
-                                <td>{data.comment}</td>
-                            </tr>
-
-
-
-                        ))}
-
-
-                    </table>
+                <div>
+                    <h4>Field_Type</h4>
+                    <input
+                        type="text"
+                        placeholder="Field Type"
+                        value={customerField_type}
+                        onChange={(e) => setustomerField_type(e.target.value)}
+                    />
                 </div>
-                <button onClick={upload2}>Submit</button>
-                <div><div>
-                    <p><button onClick={clear}>Clear</button></p>
-                </div></div>
-                <hr />
-                <hr />
+                <div>
+                    <h4>Fields</h4>
 
-                <h3>Update result_config_dev_en</h3>
+                    <input
+                        type="text"
+                        placeholder="Fields"
+                        value={customerFields}
+                        onChange={(e) => setCustomerFields(e.target.value)}
+                    />
 
-                <Result />
-                {/* <h2>{image1}</h2> */}
-                <hr />
-                <hr />
-                <h3>Update threshold_dev </h3>
-                <Threshold />
-
-
-                <hr />
-                <hr />
-                <h3>Update valid_location </h3>
-
-                <Location />
-                <hr />
-                <hr />
-                <h3>Update valid_numbers </h3>
-
-                <PhNumber />
-
-
-
-
-            </div >
-            {/* <button onClick={show_log2}>Show Logs</button> */}
-
-
-
-
-            {/* <h2 style={{ textAlign: "center" }}>Upload Module Files</h2>
-
-            <div id="files">
-                <div id="py">
-                    <h3 id="py_text">Select Py File</h3>
-                    <form onSubmit={formHandler1}>
-                        <input type="file" className="input" onChange={handleChange1} required />
-                        <div id="output1"></div>
-
-
-
-                    </form>
                 </div>
-                <div id="modal">
-                    <h3 id="modal_text">Select Modal File</h3>
-                    <form onSubmit={formHandler2}>
-                        <input type="file" className="input" onChange={handleChange2} required />
-                        <div id="output2"></div>
+                <div>
 
 
-                    </form>
+
+
+                    <h4>Comments</h4>
+                    <input value={comments} onChange={(e) => setComments(e.target.value)} placeholder="Comments"></input>
                 </div>
             </div>
-            <hr />
-            <div className="user_form">
-
-                <select type="text" id="company" placeholder="Company's Name" onChange={company_drop}
-                    value={company}>
-                    <option>Select</option>
-                    <option>Comp 1</option>
-                    <option>Comp 2</option>
-                    <option>Comp 3</option>
-                </select>
-                <h5>You have selected----{company}</h5>
-
-
-                <select type="text" id="crop" placeholder="Crop's Name" onChange={crop_drop}
-                    value={crop}>
-                    <option>Select</option>
-                    <option>Crop 1</option>
-                    <option>Crop 2</option>
-                    <option>Crop 3</option>
-                    <option>Crop 4</option>
-                </select>
-                <h5>You have selected----{crop}</h5>
-
-                <select type="text" id="machine" placeholder="Machine's Name" onChange={machine_drop}
-                    value={machine}>
-                    <option>Select</option>
-                    <option>Mach 1</option>
-                    <option>Mach 2</option>
-                    <option>Mach 3</option>
-                    <option>Mach 4</option>
-                </select>
-                <h5>You have selected----{machine}</h5>
-
-                <select type="text" id="variety" placeholder="Variety's Name" onChange={variety_drop}
-                    value={variety}>
-                    <option>Select</option>
-                    <option>Variety 1</option>
-                    <option>Variety 2</option>
-                    <option>Variety 3</option>
-                </select>
-                <h5>You have selected----{variety}</h5>
-
-            </div>
-            <div id="option">
-                <h3 style={{ textAlign: "center" }}>Choose the Mode</h3>
-                <select id="mode" onChange={selectedMode}>
-                    <option>Select</option>
-                    <option value="Online">Online</option>
-                    <option value="Offline">Offline</option>
-                    <option value="Offline">Both</option>
-                </select>
-
-                <h5>You have selected the Mode-->{value1}</h5>
-                <h3 style={{ textAlign: "center" }}>Choose the Puropse</h3>
-                <select id="purpose" onChange={selectedPurpose}>
-                    <option>Select</option>
-                    <option>Dev</option>
-                    <option>Staging</option>
-                    <option>Production</option>
-                </select>
-                <h5>You have selected----{value3}</h5>
-                <h3 style={{ textAlign: "center" }}>Choose the Functionality</h3>
-                <select id="functionality" onChange={selectedFunctionality}>
-                    <option>Select</option>
-                    <option>Object Detection</option>
-                    <option>Classification</option>
-                    <option>Segmentation </option>
-
-                </select>
-
-                <h5>You have selected the Functionality--> {value2}</h5>
-            </div>
-
-            <hr />
-            <hr />
-            <h3 style={{ textAlign: "center" }}>Uplaod History of Py file</h3>
-            <div>
-                <h4>Final Name of Py File--> {string}_{company}_{crop}_{machine}_{variety}_{value1}_{value2}_{value3}.{string2}</h4>
-                <h4>File Type--{type1}
-                </h4>
-                <h4>Modified Size--{size1}</h4>
-                <h4 id="time">Modified Date and Time--{date1} {time1}</h4>
-            </div >
+            {/* <h3 style={{ textAlign: "center" }}>Uplaod History of Py file</h3>
+            <h4>Final Name of Py File--> {string}_{company}_{crop}_{machine}_{variety}_{value1}_{value2}_{value3}.{string2}</h4>
+            <h4>File Type--{type1}
+            </h4>
+            <h4>Modified Size--{size1}</h4>
+            <h4 id="time">Modified Date and Time--{date1} {time1}</h4> */}
             <div id="table1">
                 <table>
                     <tr>
 
-                        <th>Name</th>
+                        <th>Date</th>
                         <th></th>
-                        <th>Time</th>
+                        <th></th>
+                        <th>Company</th>
+                        <th></th>
+                        <th></th>
+                        <th>User</th>
+                        <th></th>
+                        <th></th>
+                        <th>Crop</th>
+                        <th></th>
+                        <th></th>
+                        <th>Variety</th>
+                        <th></th>
+                        <th></th>
+                        <th>Machine</th>
+                        <th></th>
+                        <th></th>
+                        <th>App Language</th>
+                        <th></th>
+                        <th></th>
+                        <th>Release Type</th>
+                        <th></th>
+                        <th></th>
+                        <th>Mode</th>
+                        <th></th>
+                        <th></th>
+                        <th>Purpose</th>
+                        <th></th>
+                        <th></th>
+                        <th>Unit</th>
+                        <th></th>
+                        <th></th>
+                        <th>Field</th>
+                        <th></th>
+                        <th></th>
+                        <th>Field Type</th>
+                        <th></th>
+                        <th></th>
+                        <th>Comments</th>
                     </tr>
 
 
@@ -1090,11 +1024,47 @@ function Home() {
                         <tr key={id}>
 
 
-                            <td>{data.name}</td>
-                            <td></td>
                             <td>{data.time}</td>
                             <td></td>
-                            <td>{ }</td>
+                            <td></td>
+                            <td>{data.company}</td>
+                            <td></td>
+                            <td></td>
+                            <td>{data.user}</td>
+                            <td></td>
+                            <td></td>
+                            <td>{data.crop}</td>
+                            <td></td>
+                            <td></td>
+
+                            <td>{data.variety}</td>
+                            <td></td>
+                            <td></td>
+                            <td>{data.machine}</td>
+                            <td></td>
+                            <td></td>
+                            <td>{data.app_lang}</td>
+                            <td></td>
+                            <td></td>
+                            <td>{data.release_type}</td>
+                            <td></td>
+                            <td></td>
+                            <td>{data.mode}</td>
+                            <td></td>
+                            <td></td>
+                            <td>{data.purpose}</td>
+                            <td></td>
+                            <td></td>
+                            <td>{data.unit}</td>
+                            <td></td>
+                            <td></td>
+                            <td>{data.fields}</td>
+                            <td></td>
+                            <td></td>
+                            <td>{data.field_type}</td>
+                            <td></td>
+                            <td></td>
+                            <td>{data.comment}</td>
 
                         </tr>
 
@@ -1105,11 +1075,12 @@ function Home() {
 
                 </table>
             </div>
-            <button onClick={upload1}>Upload Py File</button>
+            <button onClick={upload}>Submit</button>
             <button onClick={show_log1}>Show Logs</button>
 
 
-            <h3 style={{ textAlign: "center" }}>Uplaod History of Modal file</h3>
+
+            {/* <h3 style={{ textAlign: "center" }}>Uplaod History of Modal file</h3>
             <div>
                 <h4>Final Name of Modal File--> {string1}_{company}_{crop}_{machine}_{variety}_{value1}_{value2}_{value3}.{string4}
                 </h4>
@@ -1118,14 +1089,24 @@ function Home() {
                 <h4 id="time">Modified Date and Time--{date2} {time2}</h4>
 
 
+            </div> */}
+            <div>
+                <br></br>
             </div>
-            <div id="table2">
+            {/* <div id="table2">
                 <table>
                     <tr>
 
                         <th>Name</th>
                         <th></th>
+                        <th></th>
+                        <th>Purpose</th>
+                        <th></th>
+                        <th></th>
                         <th>Time</th>
+                        <th></th>
+                        <th></th>
+                        <th>Comments</th>
                     </tr>
 
 
@@ -1137,8 +1118,16 @@ function Home() {
 
                             <td>{data.name}</td>
                             <td></td>
+                            <td></td>
+                            <td>{data.release_type}</td>
+                            <td></td>
+                            <td></td>
 
                             <td>{data.time}</td>
+                            <td></td>
+                            <td></td>
+                            <td>{data.comment}</td>
+
 
                         </tr>
 
@@ -1148,14 +1137,16 @@ function Home() {
 
 
                 </table>
-            </div>
+            </div> 
             <button onClick={upload2}>Upload Modal File</button>
-            <button onClick={show_log2}>Show Logs</button> */}
+            <button onClick={show_log2}>Show Logs</button>
+            <div><button onClick={addResults2}>Submit</button></div>*/}
+            <div>
+                <p><button onClick={clear}>Clear</button></p>
+            </div>
 
         </div>
-
-    )
-
+    );
 }
 
-export default Home
+export default Result;

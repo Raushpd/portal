@@ -1,30 +1,144 @@
+// import React, { useState, useEffect } from "react";
+// import firebase from "firebase/compat/app"
+
+// import db from "./firebase1";
+// import { addDoc, collection, doc, setDoc } from "firebase/firestore";
+
+
+// import { ref, uploadBytesResumable } from "firebase/storage";
+// import { auth } from "./firebase";
+// import { storage } from "./firebase1";
+
+// import { uploadBytes } from 'firebase/storage'
+// import { app } from './firebase1';
+// import Threshold from "./Threshold";
+// import PhNumber from './PhNumber'
+// import { upload } from "@testing-library/user-event/dist/upload";
+
+
+// function Location(props) {
+
+
+
+
+// const [customerCities1, setCustomerCities1] = useState();
+// const [customerCities2, setCustomerCities2] = useState();
+// const [customerCities3, setCustomerCities3] = useState();
+// const [customerCities4, setCustomerCities4] = useState();
+// const [comments, setComments] = useState("");
+// const [time, setTime] = useState("");
+
+//     var city = []
+// async function addLocation() {
+
+
+//     var ref = db.collection("valid_location").doc(JSON.stringify(props.company));
+//     var ref1 = db
+//         .collection("valid_location")
+//         .doc(props.company)
+//         .collection("user1").doc();
+
+
+//     ref.update({
+//         cities: firebase.firestore.FieldValue.arrayUnion(customerCities1),
+
+//     })
+//     var final_loc = customerCities1 + "," + customerCities2 + "," + customerCities3 + "," + customerCities4
+//     const docRef = await setDoc(
+
+//         ref1, {
+//         cities: firebase.firestore.FieldValue.arrayUnion(final_loc),
+//         crop: props.crop,
+//         variety: props.variety,
+//         machine: props.machine,
+//         functionality: props.functionality,
+//         mode: props.mode,
+//         time: props.time,
+
+//         purpose: props.purpose,
+//         comments: comments,
+//     }
+//     )
+//     console.log(props.time);
+//     setCustomerCities1("");
+//     setCustomerCities2("");
+//     setCustomerCities3("");
+//     setCustomerCities4("");
+
+//         async function submit() {
+//             docRef = await setDoc(
+
+//                 ref1, {
+
+//                 time: props.time,
+//             })
+//         }
+//     }
+//     console.log(props.time);
+
+//     return (
+//         <div className="App">
+//             <div className="App__form">
+//                 <input
+//                     type="text"
+//                     placeholder="lat1"
+//                     value={customerCities1}
+//                     onChange={(e) => setCustomerCities1(e.target.value)}
+//                 />
+//                 <input
+//                     type="text"
+//                     placeholder="long1"
+//                     value={customerCities2}
+//                     onChange={(e) => setCustomerCities2(e.target.value)}
+//                 />
+//                 <input
+//                     type="text"
+//                     placeholder="lat2"
+//                     value={customerCities3}
+//                     onChange={(e) => setCustomerCities3(e.target.value)}
+//                 />
+//                 <input
+//                     type="text"
+//                     placeholder="long2"
+//                     value={customerCities4}
+//                     onChange={(e) => setCustomerCities4(e.target.value)}
+//                 />
+//                 <input value={comments} onChange={(e) => setComments(e.target.value)} placeholder="Comments"></input>
+
+//                 <button onClick={addLocation}>Submit</button>
+//             </div>
+//         </div>
+//     );
+// }
+
+// export default Location
+
+
+
+
+
 import React, { useState, useEffect } from "react";
-import { ref, uploadBytesResumable } from "firebase/storage";
-import { auth } from "./firebase";
 import firebase from "firebase/compat/app"
-import { storage } from "./firebase1";
-import './Home.css';
-import db from "./firebase1";
+
+import db from "../firebase1";
 import { addDoc, collection, doc, setDoc } from "firebase/firestore";
+
+
+import { ref, uploadBytesResumable } from "firebase/storage";
+import { auth } from ".././firebase";
+import { storage } from ".././firebase1";
+
 import { uploadBytes } from 'firebase/storage'
-import { app } from './firebase1';
-import Result from "./components/Result";
-import Threshold from "./components/Threshold";
-import Location from "./components/Location";
-import PhNumber from './components/PhNumber'
+import { app } from '.././firebase1';
+import PhNumber from './PhNumber'
 import { upload } from "@testing-library/user-event/dist/upload";
 
-function Home() {
-
-
+function Location(props) {
     const [customerPurpose, setCustomerPurpose] = useState("");
     const [customerUnit, setCustomerUnit] = useState(0);
     const [customerField_type, setustomerField_type] = useState(0);
     const [customerFields, setCustomerFields] = useState("");
-    var [customerNumber, setCustomerNumber] = useState("");
-    const [comments, setComments] = useState("");
-    const [customerEnable, setCustomerEnable] = useState(false);
-    const [customerUser, setCustomerUser] = useState("");
+    var [customerNumber, setCustomerNumber] = useState();
 
 
 
@@ -59,7 +173,12 @@ function Home() {
     var str3;
     var str4;
 
-
+    const [customerCities1, setCustomerCities1] = useState();
+    const [customerCities2, setCustomerCities2] = useState();
+    const [customerCities3, setCustomerCities3] = useState();
+    const [customerCities4, setCustomerCities4] = useState();
+    const [comments, setComments] = useState("");
+    const [time, setTime] = useState("");
 
     const [string2, setString2] = useState("");
     const [string, setString] = useState("");
@@ -94,19 +213,7 @@ function Home() {
         console.log(e.target.value)
 
     }
-
-    const clear = () => {
-        setCompany("")
-        setMachine("")
-        setCrop("")
-        setVariety("")
-        setValue1("")
-        setValue2("")
-        setCustomerUser("")
-        setValue3("")
-
-        setComments("")
-    }
+    const [customerUser, setCustomerUser] = useState("");
 
     const [imageName1, setImageName1] = useState("");
     const [imageTime1, setImageTime1] = useState("");
@@ -231,17 +338,33 @@ function Home() {
         });
 
     };
-    var name1 = string + "_" + company + "_" + crop + "_" + variety + "_" + machine + "_" + value1 + "_" + value3 + "_" + value2 + "." + string2;
+    var name1 = props.string + "_" + company + "_" + crop + "_" + machine + "_" + variety + "_" + value1 + "_" + value2 + "." + props.string2;
     // setNewname1(name1)
-    var name2 = string1 + "_" + company + "_" + crop + "_" + variety + "_" + machine + "_" + value1 + "_" + value3 + "_" + value2 + "." + string4;
+    var name2 = props.string1 + "_" + company + "_" + crop + "_" + machine + "_" + variety + "_" + value1 + "_" + value2 + "." + props.string4;
     // setNewname2(name2)
-
     const [newname1, setNewname1] = useState(name1);
     const [newname2, setNewname2] = useState(name2);
 
     var name_1 = name1;
     var name_2 = name2;
 
+
+
+    const clear = () => {
+        setCompany("")
+        setMachine("")
+        setCrop("")
+        setVariety("")
+        setValue1("")
+        setValue2("")
+        setCustomerUser("")
+        setValue3("")
+        setCustomerCities1("")
+        setCustomerCities2("")
+        setCustomerCities3("")
+        setCustomerCities4("")
+        setComments("")
+    }
 
     const formHandler1 = (e) => {
         e.preventDefault();
@@ -255,36 +378,6 @@ function Home() {
 
     };
 
-
-    function user_drop(event) {
-        if (event.target.value !== "Select") {
-            setCustomerUser(event.target.value);
-        }
-    }
-
-    function company_drop(event) {
-        if (event.target.value !== "Select") {
-            setCompany(event.target.value);
-        }
-    }
-
-    function machine_drop(event) {
-        if (event.target.value !== "Select") {
-            setMachine(event.target.value);
-        }
-    }
-
-    function crop_drop(event) {
-        if (event.target.value !== "Select") {
-            setCrop(event.target.value);
-        }
-    }
-
-    function variety_drop(event) {
-        if (event.target.value !== "Select") {
-            setVariety(event.target.value);
-        }
-    }
     const [user1, setUser1] = useState([]);
     const [machine1, setMachine1] = useState([]);
     const [company1, setCompany1] = useState([]);
@@ -292,7 +385,7 @@ function Home() {
     const [variety1, setVariety1] = useState([]);
 
     useEffect(() => {
-        db.collection("py_data").onSnapshot((snapshot) => {
+        db.collection("valid_location").onSnapshot((snapshot) => {
             setCustomersData1(
                 snapshot.docs.map((doc) => ({
                     id: doc.id,
@@ -301,16 +394,6 @@ function Home() {
             )
         })
         console.log({ customersData1 })
-
-        db.collection("modal_data").onSnapshot((snapshot) => {
-            setCustomersData2(
-                snapshot.docs.map((doc) => ({
-                    id: doc.id,
-                    data: doc.data()
-                }))
-            )
-        })
-        console.log({ customersData2 })
 
         db.collection("field_user").onSnapshot((snapshot) => {
             setUser1(
@@ -357,92 +440,200 @@ function Home() {
             )
         })
 
-
     }, [])
+
+    var tempName2 = props.string1 + "_" + company + "_" + crop + "_" + machine + "_" + variety + "_" + value1 + "_" + value2 + "." + props.string4;
+
+    var tempName1 = props.string + "_" + company + "_" + crop + "_" + machine + "_" + variety + "_" + value1 + "_" + value2 + "." + props.string2;
+
     const mySet1 = new Set()
+
+    const upload = () => {
+        const storageRef = ref(storage, `/valid_location/`)
+        db.collection("valid_location").add({
+            company: company,
+            user: customerUser,
+            crop: crop,
+            variety: variety,
+            machine: machine,
+            release_type: value3,
+            mode: value1,
+            time: currDate,
+            comment: comments,
+            city: cities,
+
+
+        })
+
+
+    }
+
+
+
+
+    function show_log1() {
+        var show_log1 = document.getElementById("table1");
+        if (show_log1.style.display === "none") {
+            show_log1.style.display = "block";
+        } else {
+            show_log1.style.display = "none";
+        }
+
+        // }
+
+
+        // function show_log2() {
+        //     var show_log2 = document.getElementById("table2");
+        //     if (show_log2.style.display === "none") {
+        //         show_log2.style.display = "block";
+        //     } else {
+        //         show_log2.style.display = "none";
+        //     }
+
+        // }
+    }
+    function user_drop(event) {
+        if (event.target.value !== "Select") {
+            setCustomerUser(event.target.value);
+        }
+    }
+
+    function company_drop(event) {
+        if (event.target.value !== "Select") {
+            setCompany(event.target.value);
+        }
+    }
+
+    function machine_drop(event) {
+        if (event.target.value !== "Select") {
+            setMachine(event.target.value);
+        }
+    }
+
+    function crop_drop(event) {
+        if (event.target.value !== "Select") {
+            setCrop(event.target.value);
+        }
+    }
+
+    function variety_drop(event) {
+        if (event.target.value !== "Select") {
+            setVariety(event.target.value);
+        }
+    }
+
     const mySet2 = new Set()
 
-    var tempName2 = string1 + "_" + company + "_" + crop + "_" + variety + "_" + machine + "_" + value1 + "_" + value3 + "_" + value2 + "." + string4;
-
-    var tempName1 = string + "_" + company + "_" + crop + "_" + variety + "_" + machine + "_" + value1 + "_" + value3 + "_" + value2 + "." + string2;
-    // console.log(tempName1)
-    // console.log(JSON.stringify(tempName1))
-    console.log(tempName1)
-    const upload1 = () => {
-        setNewname1(tempName1)
-        if (image1 == null)
-            return;
-        // console.log(image);
 
 
-
-        // console.log(tempName1)
-
-        if (image1 === null) {
-            console.log("hiiii")
-            return;
-        }
-        // console.log(storage)
-        const storageRef = ref(storage, `/py_file/${JSON.stringify(newname1)}`)
-        if (tempName1 !== "______.") {
-            uploadBytes(storageRef, image1).then((snapshot) => {
-                console.log('Uploaded a blob or file!');
-            });
-        }
-
-        console.log(tempName1)
-        if (!mySet1.has(tempName1)) {
-            if (tempName1 !== "______.") {
-                mySet1.add(tempName1)
-                db.collection("py_data").add({
-                    name: tempName1,
-                    time: time1,
-                    release_type: value3,
-                    comment: comments,
-                    // comments:
-                });
-            }
-        }
+    // const upload = () => {
+    //     setNewname2(name_2)
+    //     if (props.image2 == null)
+    //         return;
+    //     // console.log(image);
+    //     const storageRef = ref(storage, `/modal_file/${JSON.stringify(name2)}`)
+    //     uploadBytes(storageRef, props.image2).then((snapshot) => {
+    //         console.log('Uploaded a blob or file!');
+    //     });
 
 
-        setImageName1("");
-        setImageTime1("");
-    }
+    //     if (!mySet2.has(tempName2)) {
 
 
-    const upload2 = () => {
-        console.log(tempName2)
-        setNewname2(tempName2)
-        if (image2 == null) {
-            console.log("hiiii")
-            return;
-        }
-        // console.log(image);
-        const storageRef = ref(storage, `/modal_file/${JSON.stringify(newname2)}`)
-        if (newname2 !== "______.") {
-            uploadBytes(storageRef, image2).then((snapshot) => {
-                console.log('Uploaded a blob or file!');
-            });
-        }
+    //         if (tempName1 !== "______.") {
+    //             mySet1.add(tempName2)
+    //             db.collection("modal_data_location").add({
+    //                 name: tempName2,
+    //                 time: props.time2,
+    //                 release_type: value2,
+    //                 comment: comments,
+    //                 // comments:
+    //                 // comments:
+    //             });
+    //         }
+    //     }
+
+    //     setImageName2("");
+    //     setImageTime2("");
+    // }
+
+    // async function addLocation1() {
+
+
+    //     var ref1 = db
+    //         .collection("valid_location")
+    //         .doc(company)
+    //         .collection(customerUser).doc();
 
 
 
-        if (!mySet2.has(newname2)) {
-            if (newname2 !== "______.") {
-                mySet2.add(newname2)
-                db.collection("modal_data").add({
-                    name: newname2,
-                    time: time2,
-                    release_type: value3,
-                    comment: comments,
-                    // comments:
-                });
-            }
-        }
+    //     var final_loc = customerCities1 + "," + customerCities2 + "," + customerCities3 + "," + customerCities4
+    //     const docRef = await setDoc(
 
-        setImageName2("");
-        setImageTime2("");
-    }
+    //         ref1, {
+    //         cities: final_loc,
+    //         file_name: newname1,
+    //         crop: crop,
+    //         variety: variety,
+    //         machine: machine,
+    //         functionality: value2,
+    //         mode: value1,
+    //         time: props.time1,
+    //         comments: comments,
+    //     }
+    //     )
+    //     console.log(props.time);
+    //     setCustomerCities1("");
+    //     setCustomerCities2("");
+    //     setCustomerCities3("");
+    //     setCustomerCities4("");
+    // }
+
+    // async function addLocation2() {
+
+
+    //     var ref1 = db
+    //         .collection("valid_location")
+    //         .doc(company)
+    //         .collection(customerUser).doc();
+
+
+
+    //     var final_loc = customerCities1 + "," + customerCities2 + "," + customerCities3 + "," + customerCities4
+    //     const docRef = await setDoc(
+
+    //         ref1, {
+    //         cities: final_loc,
+    //         file_name: newname2,
+    //         crop: crop,
+    //         variety: variety,
+    //         machine: machine,
+    //         functionality: value2,
+    //         mode: value1,
+    //         time: props.time2,
+    //         comments: comments,
+    //     }
+    //     )
+    //     console.log(props.time);
+    //     setCustomerCities1("");
+    //     setCustomerCities2("");
+    //     setCustomerCities3("");
+    //     setCustomerCities4("");
+
+
+
+    var cities = customerCities1 + "," + customerCities2 + "," + customerCities3 + "," + customerCities4
+
+    var today = new Date();
+    var date = today.getDate() + '/' + (today.getMonth() + 1) + '/' + today.getFullYear();
+    var currTime = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+
+
+    var currDate = date + " " + currTime
+    console.log(currDate)
+
+
+
     function check(elem) {
         // use one of possible conditions
         // if (elem.value == 'Other')
@@ -453,29 +644,29 @@ function Home() {
         var machine_select = document.getElementById("machineSelect");
         if (comp_select.value === "Other") {
             console.log("hii")
-            document.getElementById("companyresult").style.display = 'block';
+            document.getElementById("companyloc").style.display = 'block';
         } else {
-            document.getElementById("companyresult").style.display = 'none';
+            document.getElementById("companyloc").style.display = 'none';
         }
         if (user_select.value === "Other") {
-            document.getElementById("userresult").style.display = 'block';
+            document.getElementById("userloc").style.display = 'block';
         } else {
-            document.getElementById("userresult").style.display = 'none';
+            document.getElementById("userloc").style.display = 'none';
         }
         if (crop_select.value === "Other") {
-            document.getElementById("cropresult").style.display = 'block';
+            document.getElementById("croploc").style.display = 'block';
         } else {
-            document.getElementById("cropresult").style.display = 'none';
+            document.getElementById("croploc").style.display = 'none';
         }
         if (variety_select.value === "Other") {
-            document.getElementById("varietyresult").style.display = 'block';
+            document.getElementById("varietyloc").style.display = 'block';
         } else {
-            document.getElementById("varietyresult").style.display = 'none';
+            document.getElementById("varietyloc").style.display = 'none';
         }
         if (machine_select.value === "Other") {
-            document.getElementById("machineresult").style.display = 'block';
+            document.getElementById("machineloc").style.display = 'block';
         } else {
-            document.getElementById("machineresult").style.display = 'none';
+            document.getElementById("machineloc").style.display = 'none';
         }
     }
     function companyCall(e) {
@@ -527,8 +718,8 @@ function Home() {
     function newMachineInput(e) {
         setNewMachine(e.target.value);
         console.log(newMachine)
-    }
 
+    }
 
     const [newCompany, setNewCompany] = useState("")
     const [newUser, setNewuser] = useState("")
@@ -548,8 +739,8 @@ function Home() {
 
             // comments:
         });
+        document.getElementById("companyloc").style.display = 'none';
         setCompany("")
-        setNewCompany("")
 
 
 
@@ -567,7 +758,7 @@ function Home() {
 
             // comments:
         });
-        document.getElementById("userresult").style.display = 'none';
+        document.getElementById("userloc").style.display = 'none';
         setCustomerUser("")
 
     }
@@ -585,7 +776,7 @@ function Home() {
 
             // comments:
         });
-        document.getElementById("cropresult").style.display = 'none';
+        document.getElementById("croploc").style.display = 'none';
         setCrop("")
 
     }
@@ -603,7 +794,7 @@ function Home() {
 
             // comments:
         });
-        document.getElementById("varietyresult").style.display = 'none';
+        document.getElementById("varietyloc").style.display = 'none';
         setVariety("")
 
     }
@@ -624,25 +815,14 @@ function Home() {
 
             // comments:
         });
-        document.getElementById("machineresult").style.display = 'none';
+        document.getElementById("machineloc").style.display = 'none';
         setMachine("")
 
     }
 
-
-
-
-
     return (
-        <div id="main">
-
-            <p id="signout_button">
-                <button onClick={() => auth.signOut()}>Sign out</button>
-            </p>
-
-
-
-            <h2 style={{ textAlign: "center" }}>Upload Module Files</h2>
+        <div className="App">
+            {/* <h2 style={{ textAlign: "center" }}>Upload Module Files</h2>
 
             <div id="files">
                 <div id="py">
@@ -664,9 +844,11 @@ function Home() {
 
                     </form>
                 </div>
-            </div>
+            </div> */}
 
-            <div className="user_form">
+
+
+            <div className="user_form3">
                 <div>
                     <h4 style={{ textDecoration: "underline" }}>Select Company</h4>
                     <select type="text" placeholder="Company's Name" onChange={company_drop}
@@ -802,7 +984,7 @@ function Home() {
                         <option>Staging</option>
                         <option>Production</option>
                     </select>
-                    <h4>You have selected-- {value3}</h4>
+                    <h4>You have selected----{value3}</h4>
                 </div>
                 <div>
                     <h4 style={{ textDecoration: "underline" }}>Choose the Purpose</h4>
@@ -816,271 +998,66 @@ function Home() {
                     </select>
                     <h4>You have selected-- {value2}</h4>
                 </div>
-
             </div>
-            <div className="threshold">
 
-                <input value={comments} onChange={(e) => setComments(e.target.value)} placeholder="Comments"></input>
-            </div>
-            <div>
-                <h3 style={{ textAlign: "center" }}>Uplaod History of Py file</h3>
+            <hr />
+            <hr />
+            <div className="loc">
                 <div>
-                    <h4>Name of Py File--> {tempName1}</h4>
-                    <h4>File Type--{type1}
-                    </h4>
-                    <h4>Modified Size--{size1}</h4>
-                    <h4 id="time">Modified Date and Time--{date1} {time1}</h4>
-                </div >
-
-
-                <div id="table1">
-                    <table>
-                        <tr>
-                            <th>Date</th>
-                            <th></th>
-                            <th></th>
-                            <th>Name</th>
-                            <th></th>
-                            <th></th>
-                            <th>Realease Type</th>
-                            <th></th>
-                            <th></th>
-                            <th>Comments</th>
-
-                        </tr>
-
-
-                        {customersData1?.map(({ id, data }) => (
-
-
-                            <tr key={id}>
-
-
-
-                                <td>{data.time}</td>
-                                <td></td>
-                                <td></td>
-                                <td>{data.name}</td>
-                                <td></td>
-                                <td></td>
-                                <td>{data.release_type}</td>
-                                <td></td>
-                                <td></td>
-                                <td>{data.comment}</td>
-
-                            </tr>
-
-
-
-                        ))}
-
-
-                    </table>
-                </div>
-                <button onClick={upload1}>Submit</button>
-                {/* <button onClick={show_log1}>Show Logs</button> */}
-
-                <h3 style={{ textAlign: "center" }}>Uplaod History of Modal file</h3>
-                <div>
-                    <h4> Name of Modal File--> {tempName2}
-                    </h4>
-                    <h4>File Type--{type2}</h4>
-                    <h4>File Size--{size2}</h4>
-                    <h4 id="time">Modified Date and Time--{date2} {time2}</h4>
+                    <h4>Lat 1</h4><input
+                        type="text"
+                        placeholder="lat1"
+                        value={customerCities1}
+                        onChange={(e) => setCustomerCities1(e.target.value)}
+                    /></div>
+                <div> <h4>Long 1</h4>  <input type="text"
+                    placeholder="long1"
+                    value={customerCities2}
+                    onChange={(e) => setCustomerCities2(e.target.value)}
+                /></div>
+                <div><h4>Lat 2</h4><input
+                    type="text"
+                    placeholder="lat2"
+                    value={customerCities3}
+                    onChange={(e) => setCustomerCities3(e.target.value)}
+                /></div>
+                <div><h4>Long 2</h4>  <input
+                    type="text"
+                    placeholder="long2"
+                    value={customerCities4}
+                    onChange={(e) => setCustomerCities4(e.target.value)}
+                /></div>
+                <div><h4>Comment</h4>  <input value={comments} onChange={(e) => setComments(e.target.value)} placeholder="Comments"></input>
                 </div>
 
 
-                <div id="table2">
-                    <table>
-                        <tr>
-                            <th>Date</th>
-                            <th></th>
-                            <th></th>
-                            <th>Name</th>
-                            <th></th>
-                            <th></th>
-                            <th>Realease Type</th>
-                            <th></th>
-                            <th></th>
-                            <th>Comments</th>
-                        </tr>
-
-
-                        {customersData2?.map(({ id, data }) => (
-
-
-                            <tr key={id}>
-
-
-                                <td>{data.time}</td>
-                                <td></td>
-                                <td></td>
-                                <td>{data.name}</td>
-                                <td></td>
-                                <td></td>
-                                <td>{data.release_type}</td>
-                                <td></td>
-                                <td></td>
-                                <td>{data.comment}</td>
-                            </tr>
 
 
 
-                        ))}
-
-
-                    </table>
-                </div>
-                <button onClick={upload2}>Submit</button>
-                <div><div>
-                    <p><button onClick={clear}>Clear</button></p>
-                </div></div>
-                <hr />
-                <hr />
-
-                <h3>Update result_config_dev_en</h3>
-
-                <Result />
-                {/* <h2>{image1}</h2> */}
-                <hr />
-                <hr />
-                <h3>Update threshold_dev </h3>
-                <Threshold />
-
-
-                <hr />
-                <hr />
-                <h3>Update valid_location </h3>
-
-                <Location />
-                <hr />
-                <hr />
-                <h3>Update valid_numbers </h3>
-
-                <PhNumber />
-
-
-
-
-            </div >
-            {/* <button onClick={show_log2}>Show Logs</button> */}
-
-
-
-
-            {/* <h2 style={{ textAlign: "center" }}>Upload Module Files</h2>
-
-            <div id="files">
-                <div id="py">
-                    <h3 id="py_text">Select Py File</h3>
-                    <form onSubmit={formHandler1}>
-                        <input type="file" className="input" onChange={handleChange1} required />
-                        <div id="output1"></div>
-
-
-
-                    </form>
-                </div>
-                <div id="modal">
-                    <h3 id="modal_text">Select Modal File</h3>
-                    <form onSubmit={formHandler2}>
-                        <input type="file" className="input" onChange={handleChange2} required />
-                        <div id="output2"></div>
-
-
-                    </form>
-                </div>
-            </div>
-            <hr />
-            <div className="user_form">
-
-                <select type="text" id="company" placeholder="Company's Name" onChange={company_drop}
-                    value={company}>
-                    <option>Select</option>
-                    <option>Comp 1</option>
-                    <option>Comp 2</option>
-                    <option>Comp 3</option>
-                </select>
-                <h5>You have selected----{company}</h5>
-
-
-                <select type="text" id="crop" placeholder="Crop's Name" onChange={crop_drop}
-                    value={crop}>
-                    <option>Select</option>
-                    <option>Crop 1</option>
-                    <option>Crop 2</option>
-                    <option>Crop 3</option>
-                    <option>Crop 4</option>
-                </select>
-                <h5>You have selected----{crop}</h5>
-
-                <select type="text" id="machine" placeholder="Machine's Name" onChange={machine_drop}
-                    value={machine}>
-                    <option>Select</option>
-                    <option>Mach 1</option>
-                    <option>Mach 2</option>
-                    <option>Mach 3</option>
-                    <option>Mach 4</option>
-                </select>
-                <h5>You have selected----{machine}</h5>
-
-                <select type="text" id="variety" placeholder="Variety's Name" onChange={variety_drop}
-                    value={variety}>
-                    <option>Select</option>
-                    <option>Variety 1</option>
-                    <option>Variety 2</option>
-                    <option>Variety 3</option>
-                </select>
-                <h5>You have selected----{variety}</h5>
 
             </div>
-            <div id="option">
-                <h3 style={{ textAlign: "center" }}>Choose the Mode</h3>
-                <select id="mode" onChange={selectedMode}>
-                    <option>Select</option>
-                    <option value="Online">Online</option>
-                    <option value="Offline">Offline</option>
-                    <option value="Offline">Both</option>
-                </select>
-
-                <h5>You have selected the Mode-->{value1}</h5>
-                <h3 style={{ textAlign: "center" }}>Choose the Puropse</h3>
-                <select id="purpose" onChange={selectedPurpose}>
-                    <option>Select</option>
-                    <option>Dev</option>
-                    <option>Staging</option>
-                    <option>Production</option>
-                </select>
-                <h5>You have selected----{value3}</h5>
-                <h3 style={{ textAlign: "center" }}>Choose the Functionality</h3>
-                <select id="functionality" onChange={selectedFunctionality}>
-                    <option>Select</option>
-                    <option>Object Detection</option>
-                    <option>Classification</option>
-                    <option>Segmentation </option>
-
-                </select>
-
-                <h5>You have selected the Functionality--> {value2}</h5>
-            </div>
-
-            <hr />
-            <hr />
-            <h3 style={{ textAlign: "center" }}>Uplaod History of Py file</h3>
+            {/* <h3 style={{ textAlign: "center" }}>Uplaod History of Py file</h3>
             <div>
                 <h4>Final Name of Py File--> {string}_{company}_{crop}_{machine}_{variety}_{value1}_{value2}_{value3}.{string2}</h4>
                 <h4>File Type--{type1}
                 </h4>
                 <h4>Modified Size--{size1}</h4>
                 <h4 id="time">Modified Date and Time--{date1} {time1}</h4>
-            </div >
-            <div id="table1">
+            </div > */}
+            {/* <div id="table1">
                 <table>
                     <tr>
 
                         <th>Name</th>
                         <th></th>
+                        <th></th>
+                        <th>Purpose</th>
+                        <th></th>
+                        <th></th>
                         <th>Time</th>
+                        <th></th>
+                        <th></th>
+                        <th>Comments</th>
                     </tr>
 
 
@@ -1092,9 +1069,16 @@ function Home() {
 
                             <td>{data.name}</td>
                             <td></td>
+                            <td></td>
+                            <td>{data.release_type}</td>
+                            <td></td>
+                            <td></td>
+
                             <td>{data.time}</td>
                             <td></td>
-                            <td>{ }</td>
+                            <td></td>
+                            <td>{data.comment}</td>
+
 
                         </tr>
 
@@ -1104,12 +1088,12 @@ function Home() {
 
 
                 </table>
-            </div>
-            <button onClick={upload1}>Upload Py File</button>
-            <button onClick={show_log1}>Show Logs</button>
+            </div> */}
+            {/* <button onClick={upload}>Upload Py File</button> */}
+            {/* <button onClick={show_log1}>Show Logs</button> */}
 
-
-            <h3 style={{ textAlign: "center" }}>Uplaod History of Modal file</h3>
+            {/* <div><button onClick={addLocation1}>Submit</button></div> */}
+            {/* <h3 style={{ textAlign: "center" }}>Uplaod History of Modal file</h3>
             <div>
                 <h4>Final Name of Modal File--> {string1}_{company}_{crop}_{machine}_{variety}_{value1}_{value2}_{value3}.{string4}
                 </h4>
@@ -1118,27 +1102,83 @@ function Home() {
                 <h4 id="time">Modified Date and Time--{date2} {time2}</h4>
 
 
-            </div>
-            <div id="table2">
+            </div> */}
+
+            <div><br></br></div>
+            <div id="table1">
                 <table>
                     <tr>
 
-                        <th>Name</th>
-                        <th></th>
+
                         <th>Time</th>
+                        <th></th>
+                        <th></th>
+                        <th>Company</th>
+                        <th></th>
+                        <th></th>
+                        <th>User</th>
+                        <th></th>
+                        <th></th>
+                        <th>Crop</th>
+                        <th></th>
+                        <th></th>
+                        <th>Variety</th>
+                        <th></th>
+                        <th></th>
+                        <th>Machine</th>
+                        <th></th>
+                        <th></th>
+                        <th>Release type</th>
+                        <th></th>
+                        <th></th>
+                        <th>Mode</th>
+
+                        <th></th>
+                        <th></th>
+                        <th>City</th>
+                        <th></th>
+                        <th></th>
+                        <th>Comments</th>
                     </tr>
 
 
-                    {customersData2?.map(({ id, data }) => (
+                    {customersData1?.map(({ id, data }) => (
 
 
                         <tr key={id}>
-
-
-                            <td>{data.name}</td>
+                            <td>{data.time}</td>
+                            <td></td>
                             <td></td>
 
-                            <td>{data.time}</td>
+                            <td>{data.company}</td>
+                            <td></td>
+                            <td></td>
+                            <td>{data.user}</td>
+                            <td></td>
+                            <td></td>
+
+                            <td>{data.crop}</td>
+                            <td></td>
+                            <td></td>
+                            <td>{data.variety}</td>
+                            <td></td>
+                            <td></td>
+                            <td>{data.machine}</td>
+                            <td></td>
+                            <td></td>
+                            <td>{data.release_type}</td>
+                            <td></td>
+                            <td></td>
+                            <td>{data.mode}</td>
+                            <td></td>
+                            <td></td>
+
+                            <td>{data.city}</td>
+
+                            <td></td>
+                            <td></td>
+                            <td>{data.comment}</td>
+
 
                         </tr>
 
@@ -1149,13 +1189,17 @@ function Home() {
 
                 </table>
             </div>
-            <button onClick={upload2}>Upload Modal File</button>
-            <button onClick={show_log2}>Show Logs</button> */}
+            <button onClick={upload}>Submit</button>
+            <button onClick={show_log1}>Show Logs</button>
+
+            {/* <div><button onClick={addLocation2}>Submit</button></div> */}
+            <div>
+                <p><button onClick={clear}>Clear</button></p>
+            </div>
+
 
         </div>
-
-    )
-
+    );
 }
 
-export default Home
+export default Location;
