@@ -1,0 +1,35 @@
+html{
+    box-sizing: border-box;
+}
+
+.component{
+    margin:10px;
+    padding:30px 80px 30px 20px;
+    background-color: whitesmoke;
+}
+
+#section{
+    margin-top: 30%;
+    margin-right:20px;
+    text-decoration: none;
+    /* background-color: red; */
+    width:20vw;
+    height:100vh;
+    display:flex;
+    flex-direction: column;
+}
+
+#main1{
+    display:flex;
+    width: 100vw;
+    background-color: blue;
+    margin-right: 10px;
+}
+
+#section1{
+    text-decoration: none;
+    /* background-color: red; */
+    width:80vw;
+    height: 100vh;
+}
+  

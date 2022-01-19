@@ -571,6 +571,7 @@ function PhNumber() {
 
             newCompanyVal = document.createTextNode(companyTxtVal);
         setNewCompany(newCompanyVal)
+        console.log(newCompany)
 
         db.collection("field_company").add({
             name: newCompany,

@@ -1,0 +1,34 @@
+.floating-label-group {
+	position: relative;
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+	.floating-label {
+		font-size: 15px;
+		color: black;
+		position: absolute;
+		pointer-events: none;
+		top: 3px;
+		left: 12px;
+		transition: all 0.1s ease;
+	}
+
+	input:focus ~ .floating-label,
+	input:not(:focus):valid ~ .floating-label {
+		top: -15px;
+		bottom: 0px;
+		left: 0px;
+		font-size: 12px;
+		opacity: 1;
+		color: #404040;
+	}
+
+
+.row {
+	margin-top: 50px;
+}
+
+.signup{
+    margin-left:20px;
+    margin-right:550px;
+}

@@ -1,0 +1,131 @@
+/* .form{
+    background-color: black;
+} */
+
+.popup-content{
+    margin: auto;
+  background: rgb(255, 255, 255);
+  
+  width: 50%;
+  padding: 5px;
+
+}
+.popup-overlay{
+    background: rgba(0, 0, 0, 0.5);
+    
+}
+
+.company,.user,.email{
+    display:flex;
+}
+
+
+.floating-label-group {
+	position: relative;
+	margin-top: 15px;
+	margin-bottom: 25px;
+}
+	.floating-label {
+		font-size: 15px;
+		color: black;
+		position: absolute;
+		pointer-events: none;
+		top: 3px;
+		left: 12px;
+		transition: all 0.1s ease;
+	}
+
+	input:focus ~ .floating-label,
+	input:not(:focus):valid ~ .floating-label {
+		top: -15px;
+		bottom: 0px;
+		left: 0px;
+		font-size: 12px;
+		opacity: 1;
+		color: #404040;
+	}
+
+
+.row {
+	margin-top: 50px;
+}
+
+/* #table1{
+    
+    background-color: green;
+} */
+#item{
+    display: flex;
+    
+}
+th{
+    margin-left: 20px;
+    
+}
+
+td{
+    padding: 10px 7px 10px 7px;
+    
+}
+#pause, #activate{
+    margin: 10px 70px 10px 70px;
+}
+hr{
+    width:70%;
+    margin-left: -60px;
+    
+}
+.popup{
+    margin-left: 20px;
+}
+
+.popup hr{
+    color: red;
+    margin-left: -24px;
+    width:105%;
+}
+
+#adduser{
+display:flex;
+margin-left:80%;
+cursor: pointer;
+
+/* background-color: green; */
+}
+.user{
+    margin-left:20px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    margin: 0;
+    padding: 0;
+    color: blue;
+    font-size: 17px;
+    /* margin:10px; */
+}
+.add{
+    border: none;
+    background: none;
+    cursor: pointer;
+    margin: 0;
+    padding: 0;
+    color: blue;
+    font-size: 20px;
+    margin-bottom: 10 px;
+    /* background-color: black; */
+}
+
+.addnewuser{
+    background-color: blue;
+    padding:10px;
+    margin:0;
+    color:white;
+
+
+}
+
+.form{
+    margin-top: 20px;
+    margin-right:0;
+    margin-left:50px;
+}

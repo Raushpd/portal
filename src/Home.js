@@ -13,6 +13,7 @@ import Threshold from "./components/Threshold";
 import Location from "./components/Location";
 import PhNumber from './components/PhNumber'
 import { upload } from "@testing-library/user-event/dist/upload";
+import { Link } from "react-router-dom"
 
 function Home() {
 
@@ -637,7 +638,8 @@ function Home() {
         <div id="main">
 
             <p id="signout_button">
-                <button onClick={() => auth.signOut()}>Sign out</button>
+                <button onClick={() => auth.signOut()}><Link to="/" style={{ textDecoration: "none" }}>Sign Out</Link>
+                </button>
             </p>
 
 
@@ -822,7 +824,7 @@ function Home() {
 
                 <input value={comments} onChange={(e) => setComments(e.target.value)} placeholder="Comments"></input>
             </div>
-            <div>
+            <div className="line">
                 <h3 style={{ textAlign: "center" }}>Uplaod History of Py file</h3>
                 <div>
                     <h4>Name of Py File--> {tempName1}</h4>
