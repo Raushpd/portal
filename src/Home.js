@@ -920,7 +920,7 @@ function Home(props) {
             <div className="line">
                 <h3 style={{ textAlign: "center" }}>Upload History of Py file</h3>
                 <div>
-                    <h4>Name of Py File--> {tempName1}</h4>
+                    <h4>Name of Py File--'&gt;' {tempName1}</h4>
                     <h4>File Type--{type1}
                     </h4>
                     <h4>Modified Size--{size1}</h4>
@@ -984,7 +984,7 @@ function Home(props) {
 
                 <h3 style={{ textAlign: "center" }}>Uplaod History of Modal file</h3>
                 <div>
-                    <h4> Name of Modal File--> {tempName2}
+                    <h4> Name of Modal File--'&gt;' {tempName2}
                     </h4>
                     <h4>File Type--{type2}</h4>
                     <h4>File Size--{size2}</h4>
