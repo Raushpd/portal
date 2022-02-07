@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 import { auth } from '../firebase';
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-
+import "./ForgotPass1.css"
 
 const ForgotPassword = () => {
     const emailRef = useRef(null);
@@ -12,7 +12,8 @@ const ForgotPassword = () => {
             emailRef.current.value
         ).then(user => {
             console.log("hiiii")
-            console.log(user)
+            console.log(emailRef.current.value)
+            document.getElementById("mess").innerHTML = "Reset Password link sent."
         }).catch(err => {
             console.log(err)
         })
@@ -28,10 +29,10 @@ const ForgotPassword = () => {
                 <input ref={emailRef} type="email" />
 
                 <button onClick={forgot} className="forgot_link">Reset Password</button>
-
+                <h4 id='mess'></h4>
+                <button><Link to="/" style={{ textDecoration: "none" }}>Back to SignIn</Link></button>
             </form>
 
-            <button><Link to="/signin" style={{ textDecoration: "none" }}>Back to SignIn</Link></button>
 
 
 

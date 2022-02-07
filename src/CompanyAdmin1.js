@@ -1,16 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import db from "./firebase1";
 import Popup from "reactjs-popup";
+import { auth } from './firebase';
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import './compAdmin.css'
-import Test from "./Test";
-// const contentStyle = {
-//     // maxWidth: "600px",
-//     width: "50%"
-// };
+import { collection } from "firebase/firestore";
 
-function CompanyAdmin1() {
+// import { useHistory } from 'react-router-dom'
+
+
+function CompanyAdmin1(props) {
+    const [locationKeys, setLocationKeys] = useState([])
+    const navigate = useNavigate()
+
+
+
+
     const [company, setCompany] = useState('');
     const [data1, setData1] = useState([]);
+    const [logData, setLogData] = useState([]);
     const [newCompany, setNewCompany] = useState("")
     const [newCompanyType, setNewCompanyType] = useState("")
     const [user, setUser] = useState('');
@@ -20,7 +28,7 @@ function CompanyAdmin1() {
     const [email1, setEmail1] = useState([]);
     const [newEmail, setNewEmail] = useState("")
     const [newType, setNewType] = useState("")
-    const [customerUser, setCustomerUser] = useState("");
+    const [currentUser, setCurrentUser] = useState("");
     const [add, setAdd] = useState("")
     const [isOpen, setIsOpen] = useState(false);
     const [value1, setValue1] = useState('');
@@ -28,10 +36,10 @@ function CompanyAdmin1() {
     const [customerpause, setCustomerPause] = useState("");
     const [customerreactivate, setCustomerReactivate] = useState("");
 
-
+    // console.log(currentUser)
     function newCompTypeInput(e) {
         setNewCompany(e.target.value);
-        console.log(newCompany)
+        // console.log(newCompany)
 
     }
 
@@ -46,29 +54,44 @@ function CompanyAdmin1() {
 
     function newUserInput(e) {
         setNewUser(e.target.value);
-        console.log(newUser)
+        // console.log(newUser)
 
     }
     function newCompInput(e) {
         setNewCompany(e.target.value);
-        console.log(newCompany)
+        // console.log(newCompany)
 
     }
     function newEmailInput(e) {
         setNewEmail(e.target.value);
-        console.log(newEmail)
+        // console.log(newEmail)
 
     }
+    const currentURL = window.location.href
+
+
+
+    // console.log(currentURL)
 
 
     useEffect(() => {
-        db.collection("new_company").onSnapshot((snapshot) => {
+        db.collection("Company").onSnapshot((snapshot) => {
             setData1(
                 snapshot.docs.map((doc) => ({
                     id: doc.id,
                     data: doc.data()
                 }))
             )
+            // console.log(data1)
+        })
+        db.collection("log").onSnapshot((snapshot) => {
+            setLogData(
+                snapshot.docs.map((doc) => ({
+                    id: doc.id,
+                    data: doc.data()
+                }))
+            )
+            // console.log(data1)
         })
 
         db.collection("company_type").onSnapshot((snapshot) => {
@@ -81,7 +104,21 @@ function CompanyAdmin1() {
         })
 
 
+
+
+        setCurrentUser(props.mail)
+        // window.addEventListener('popstate', (event) => {
+
+        //     if (currentURL === "http://localhost:3000/") {
+        //         return <h1>error</h1>
+        //     }
+        // });
+
     }, [])
+
+
+
+
 
     function check(elem) {
         // use one of possible conditions
@@ -102,14 +139,14 @@ function CompanyAdmin1() {
 
             newCompanyVal = document.createTextNode(companyTxtVal);
         setNewCompanyType(newCompany)
-        console.log(newCompany)
+        // console.log(newCompany)
         db.collection("company_type").add({
             company_type: newCompany,
         });
         setCompany("")
         setNewCompanyType("")
     }
-
+    const [logUser, setLogUser] = useState("hii")
 
     const insertValue = () => {
         var companyTxtVal = document.getElementById("company-input").value,
@@ -119,27 +156,33 @@ function CompanyAdmin1() {
             newCompanyVal = document.createTextNode(companyTxtVal),
             newUserVal = document.createTextNode(userTxtVal),
             newEmailVal = document.createTextNode(emailTxtVal);
+        // btn = document.getElementById("pause");
+
+
         setNewCompany(newCompanyVal)
         setNewUser(newUserVal)
         setNewEmail(newEmailVal)
-        console.log(newUser)
-        console.log(newEmail)
-        console.log(newCompany)
-        console.log(value1)
+        setLogUser(newUser)
 
-        db.collection("new_company").add({
+        db.collection("Company").add({
             name: newUser,
             email: newEmail,
             company_name: newCompany,
-            company_type: value1,
-            pause: customerpause,
-            activate: customerreactivate
-
-
-            // comments:
+            company_type: company,
+            pause: "0",
+            recativate: "1",
+            user: currentUser,
         });
 
-
+        db.collection("log").add({
+            name: newUser,
+            email: newEmail,
+            company_name: newCompany,
+            company_type: company,
+            pause: "0",
+            recativate: "1",
+            user: currentUser,
+        });
         setCompany("")
         setNewCompany("")
         setNewUser("")
@@ -147,6 +190,11 @@ function CompanyAdmin1() {
         setNewType("")
 
     }
+
+
+
+
+
     const togglePopup = () => {
         setIsOpen(!isOpen);
     }
@@ -154,36 +202,21 @@ function CompanyAdmin1() {
         if (e.target.value !== "Select") {
             setValue1(e.target.value);
         }
-        console.log(e.target.value)
+        // console.log(e.target.value)
 
     }
+    // console.log(logUser)
 
-    function disable() {
-        document.querySelectorAll('.btn').forEach(el => el.setAttribute('disabled', true));
-    }
-
-    function method() {
-        var pausebtn = document.getElementById("pause").disabled = false;
-        var activatebtn = document.getElementById("activate").disabled = true;
-        if (pausebtn === false) {
-            activatebtn = true;
-        }
-        else if (pausebtn === true) {
-            activatebtn = false;
-        }
-        else if (activatebtn === true) {
-            pausebtn = true
-        }
-        else {
-            pausebtn = false
-        }
-    }
 
 
 
     return (
         <div className="form">
             <div >
+                <p id="signout_button">
+                    <button onClick={() => auth.signOut()}><Link to="/" style={{ textDecoration: "none" }}>Sign Out</Link>
+                    </button>
+                </p>
 
                 <Popup
                     trigger={<button className="add"> Add new user</button>}
@@ -197,22 +230,10 @@ function CompanyAdmin1() {
 
                                 <div className="company">
 
-
-                                    {/* <label>Name
-                                <input id="company-input" onChange={newCompInput}></input>
-
-                            </label> */}
-
-                                    {/* <span className='blocking-span'>
-                                <input id="company-input" type="text" className="inputText" onChange={newCompInput}></input>
-
-                                <span className="floating-label">Name</span>
-                            </span> */}
-
-
                                     <div className="col-xs-4 col-xs-offset-4">
                                         <div className="floating-label-group">
-                                            <input id="company-input" type="text" className="form-control" autocomplete="off" onChange={newCompInput} autofocus required />
+                                            <input id="company-input" type="text" className="form-control" autocomplete="off" onChange={newCompInput} autofocus required="required"
+                                            />
 
                                             <label className="floating-label">Company's Name</label>
                                         </div>
@@ -261,13 +282,7 @@ function CompanyAdmin1() {
 
                                 <div>
                                     <h4 style={{ textDecoration: "underline" }}>Choose the Type</h4>
-                                    {/* <select type="text" onChange={selectedMode} value={value1}>
 
-                                    <option>Select</option>
-                                    <option value="Trader">Trader</option>
-                                    <option value="Processor">Processor</option>
-                                    <option value="Miller">Miller</option>
-                                </select> */}
 
 
                                     <select type="text" placeholder="Company Type" onChange={company_drop}
@@ -280,56 +295,24 @@ function CompanyAdmin1() {
                                         ))}
                                     </select>
                                     <div>
-                                        <label>New Company
+                                        <label>New Type
                                             <input id="companyType-input" onChange={newCompTypeInput}></input>
                                             <button onClick={insertCompanyTypeValue}>Add</button>
                                         </label>
                                     </div>
-                                    <h4>You have selected-- {company}</h4>
-
-
-                                    <div><h4>Select Enable</h4><select
-                                        type="boolean"
-                                        placeholder="Cities"
-                                        value={customerpause}
-                                        id="bool"
-                                        onChange={(e) => setCustomerPause(e.target.value)}
-                                    >
-                                        <option>Select</option>
-                                        <option>true</option>
-                                        <option>false</option>
-                                    </select></div>
-
-
-                                    <div><h4>Select Enable</h4><select
-                                        type="boolean"
-                                        placeholder="Cities"
-                                        value={customerreactivate}
-                                        id="bool"
-                                        onChange={(e) => setCustomerReactivate(e.target.value)}
-                                    >
-                                        <option>Select</option>
-                                        <option>true</option>
-                                        <option>false</option>
-                                    </select></div>
-
-
-
-
-
+                                    {/* <h4>You have selected-- {company}</h4> */}
 
 
                                 </div>
 
-                                <button id="pause" onClick={method}>abc</button>
-                                <button id="activate" onClick={method}>abc</button>
+                                {/* <button id="activate" onClick={method2}>abc</button> */}
 
 
 
                                 <div id="adduser">
-                                    <a className="close" value="Cancel" onClick={close}>
+                                    <button className="close" value="Cancel" onClick={close}>
                                         CANCEL
-                                    </a>
+                                    </button>
                                     <button className="user" onClick={insertValue}>ADD USER</button>
                                 </div>
 
@@ -342,68 +325,104 @@ function CompanyAdmin1() {
                 </Popup >
             </div>
             <div>
-                <table >
+                <table id="head">
 
                     <tr id="item">
                         <th>Name</th>
-                        <th></th>
-                        <th></th>
 
                         <th>Email Id</th>
-                        <th></th>
-                        <th></th>
+
                         <th>Company's Name</th>
 
-                        <th></th>
-                        <th></th>
-
                         <th>Company Type</th>
-                        <th></th>
-                        <th></th>
 
-                        <th>Subscription paused</th>
-                        <th></th>
-                        <th></th>
+                        <th>Subscription</th>
 
-                        <th>Reactivate</th>
+                        <th>Delete</th>
+
+                        <th>User's Name</th>
+
 
                     </tr>
                 </table>
-                <table>
+                <table id="content">
 
 
 
-                    {data1?.map(({ id, data }) => (
-
+                    {data1.map(({ id, data }) => (
 
                         <tr key={id}>
 
 
                             <td>{data.company_name}</td>
-                            <td></td>
-                            <td></td>
 
                             <td>{data.email}</td>
-                            <td></td>
-                            <td></td>
+
                             <td>{data.name}</td>
 
-                            <td></td>
-                            <td></td>
-
                             <td>{data.company_type}</td>
-                            <td></td>
-                            <td></td>
 
-                            {/* <button id="pause" onClick={method}>abc</button>
-                            <td></td>
-                            <td></td>
+                            <td>{data.pause === "0" ? <button onClick={() => {
+                                db.collection("Company").doc(id).update({
+                                    pause: "1",
+                                    reactivate: "0",
+                                    user: currentUser,
+
+                                })
+
+                                db.collection('log').add({
+                                    name: logUser,
+                                    email: newEmail,
+                                    company_name: newCompany,
+                                    company_type: company,
+                                    pause: "1",
+                                    recativate: "0",
+                                    user: currentUser,
+                                })
 
 
+                                setCurrentUser(props.mail)
 
-                            <button id="activate" onClick={method}>abc</button> */}
+                            }}>Pause</button> : <button onClick={() => {
+                                db.collection("Company").doc(id).update({
+                                    pause: "0",
+                                    reactivate: "1",
+                                    user: currentUser,
+
+                                })
+                                setLogUser(newUser)
+
+                                db.collection('log').add({
+                                    name: logUser,
+                                    email: newEmail,
+                                    company_name: newCompany,
+                                    company_type: company,
+                                    pause: "0",
+                                    recativate: "1",
+                                    user: currentUser,
+                                })
+                                setCurrentUser(props.mail)
 
 
+                            }}>Reactivate</button>}</td>
+
+
+                            <td><button onClick={() => {
+                                db.collection("Company").doc(id)
+                                    .delete()
+                                db.collection('log').add({
+                                    name: newUser,
+                                    email: newEmail,
+                                    company_name: newCompany,
+                                    company_type: company,
+                                    pause: "0",
+                                    recativate: "1",
+                                    user: currentUser,
+                                    deleted_by: currentUser,
+                                })
+                            }}>Delete</button></td>
+
+                            <td>{data.user}</td>
 
 
                         </tr>
@@ -414,6 +433,73 @@ function CompanyAdmin1() {
 
 
                 </table>
+                {/* <button onClick={() => navigate(-1)}>go back</button> */}
+            </div>
+
+
+            <hr />
+            <hr />
+
+            <div>
+                <table id="head">
+
+                    <tr id="item">
+                        <th>Name</th>
+
+                        <th>Email Id</th>
+
+                        <th>Company's Name</th>
+
+                        <th>Company Type</th>
+
+                        <th>Subscription</th>
+
+                        <th>Delete</th>
+
+                        <th>User's Name</th>
+                        <th>Deleted By</th>
+
+
+
+                    </tr>
+                </table>
+                <table id="content">
+
+
+
+                    {logData.map(({ id, data }) => (
+
+
+                        <tr key={id}>
+
+
+                            <td>{data.name}</td>
+                            <td>{data.email}</td>
+                            <td>{data.company_name}</td>
+
+
+
+                            {/* <h1>{data.name}</h1> */}
+
+                            <td>{data.company_type}</td>
+
+                            <td>{data.pause === "0" ? <td>Pause</td> : <td>Reactivate</td>}</td>
+
+
+
+                            <td>{data.user}</td>
+                            <td>{data.deleted_by}</td>
+
+
+                        </tr>
+
+
+
+                    ))}
+
+
+                </table>
+                {/* <button onClick={() => navigate(-1)}>go back</button> */}
             </div>
         </div >
     )

@@ -1,0 +1,52 @@
+.floating-label-group {
+	/* display:flex; */
+	position: relative;
+	margin-top: 15px;
+	margin-bottom: 15px;
+    margin-right: 5px;
+	
+}
+	.floating-label {
+		font-size: 15px;
+		color: black;
+		position: absolute;
+		pointer-events: none;
+		top: 3px;
+		left: 12px;
+		transition: all 0.1s ease;
+	}
+
+	input:focus ~ .floating-label,
+	input:not(:focus):valid ~ .floating-label {
+		top: -15px;
+		bottom: 0px;
+		left: 0px;
+		font-size: 12px;
+		opacity: 1;
+		color: #404040;
+		
+	}
+    i{
+        position: absolute;
+			left: 150px;
+			top: 3px;
+			
+        
+    }
+	/* span{
+		border: 5px solid red;
+	} */
+
+    .signin{
+        display: flex;
+        justify-content: center;
+        /* background-color: red; */
+		/* margin: auto; */
+        height: 100vh;
+        width: 100vw;
+        /* display: flex; */
+    }
+    
+
+
+    

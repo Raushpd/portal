@@ -88,11 +88,11 @@ h3,h2{
     text-decoration: underline;
 }
 .App{
-    margin-right:7%;
-    margin-left: 7%;
+    /* margin-right:60px; */
+    /* margin-left: 60px; */
     margin-top: 20px;
     margin-top: 20px;
-    width:90vw;
+    width:800px;
 }
 #signout_button{
     display: flex;

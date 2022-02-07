@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import firebase from "firebase/compat/app"
-
 import db from ".././firebase1";
 import { collection, doc, setDoc } from "firebase/firestore";
-
 
 import { ref, uploadBytesResumable } from "firebase/storage";
 import { auth } from ".././firebase";
@@ -21,12 +19,7 @@ function Result() {
     var [customerNumber, setCustomerNumber] = useState();
     const [comments, setComments] = useState("");
 
-
-
     var count = 1;
-
-
-
 
     const output1 = document.querySelector("#output1");
     function processSelectedFiles(fileInput) {
@@ -47,14 +40,10 @@ function Result() {
         }
     }
 
-
-
     var str;
     var str2;
     var str3;
     var str4;
-
-
 
     const [string2, setString2] = useState("");
     const [string, setString] = useState("");
@@ -91,11 +80,7 @@ function Result() {
             setValue3(e.target.value);
         }
         console.log(e.target.value)
-
     }
-
-
-
 
     function selectedMode(e) {
         if (e.target.value !== "Select") {
@@ -152,100 +137,7 @@ function Result() {
     let txt7 = "";
     let txt8 = "";
     let text3 = "";
-    // 
-    // let handleChange1 = e => {
-    //     setImage1(e.target.files[0])
-    //     var files = e.target.files;
-    //     var filesArray = [].slice.call(files);
-    //     filesArray.forEach(e => {
 
-    //         console.log(e.size);
-    //         console.log(e.lastModifiedDate);
-    //         console.log(e.type);
-    //         fileSize1 = e.size
-    //         setSize1(fileSize1);
-    //         modDate1 = e.lastModifiedDate
-    //         setDate1(modDate1);
-    //         fileType1 = e.type
-    //         setType1(fileType1);
-    //         str = e.name;
-    //         str4 = str.substring(str.indexOf(".") + 1);
-    //         str = str.substring(0, str.indexOf("."));
-    //         setString(str);
-    //         setString2(str4);
-
-    //         txt1 = JSON.stringify(modDate1)
-    //         txt6 = txt1.substring(1, txt1.indexOf("T"))
-    //         txt7 = txt1.substring(txt1.indexOf("T") + 1)
-    //         txt8 = txt7.substring(0, txt7.length - 2)
-
-    //         console.log(txt6)
-    //         setDate1(txt6)
-    //         setTime1(txt8)
-    //         text3 = txt6 + " " + txt8;
-    //         setText4(text3)
-    //         setNewname1(name1)
-    //         console.log(newname1)
-    //         setImageName1(name1);
-    //         setImageTime1(text3);
-    //         console.log(imageName1)
-
-    //         console.log(imageTime1)
-
-
-    //     });
-    // };
-
-
-    // var txt2 = '';
-    // var txt3 = '';
-    // var txt4 = '';
-    // var txt5 = '';
-    // var text = '';
-    // const [arr2, setArr2] = useState([])
-    // let handleChange2 = e => {
-
-    //     setImage2(e.target.files[0])
-    //     var files2 = e.target.files;
-    //     var filesArray2 = [].slice.call(files2);
-    //     filesArray2.forEach(e => {
-
-    //         console.log(e.size);
-    //         console.log(e.lastModifiedDate);
-    //         console.log(typeof (e.lastModifiedDate))
-    //         console.log(e.type);
-    //         fileSize2 = e.size
-    //         setSize2(fileSize2);
-    //         modDate2 = e.lastModifiedDate
-    //         console.log(typeof (modDate2))
-    //         // setDate2(modDate2);
-    //         fileType2 = e.type
-    //         setType2(fileType2);
-    //         str2 = e.name;
-    //         str3 = str2.substring(str2.indexOf(".") + 1);
-    //         str2 = str2.substring(0, str2.indexOf("."));
-    //         setString1(str2);
-    //         setString4(str3);
-
-    //         txt2 = JSON.stringify(modDate2)
-    //         txt3 = txt2.substring(1, txt2.indexOf("T"))
-    //         txt4 = txt2.substring(txt2.indexOf("T") + 1)
-    //         txt5 = txt4.substring(0, txt4.length - 2)
-
-    //         console.log(txt5)
-    //         setDate2(txt3)
-    //         setTime2(txt5)
-    //         text = txt3 + " " + txt5;
-    //         setText1(text)
-    //         setNewname2(name2)
-    //         setImageName2(name2);
-    //         setImageTime2(text);
-
-
-
-    //     });
-
-    // };
     var name1 = string + "_" + company + "_" + crop + "_" + machine + "_" + variety + "_" + value1 + "_" + value2 + "." + string2;
     // setNewname1(name1)
     var name2 = string1 + "_" + company + "_" + crop + "_" + machine + "_" + variety + "_" + value1 + "_" + value2 + "." + string4;
@@ -362,7 +254,7 @@ function Result() {
     const upload = () => {
         const storageRef = ref(storage, `/ result_config_dev_en/`)
 
-        db.collection(" result_config_dev_en").add({
+        db.collection("result_config_dev_en").add({
             company: company,
             user: customerUser,
             crop: crop,
@@ -376,21 +268,14 @@ function Result() {
             fields: customerFields,
             field_type: customerField_type,
             time: currDate,
-
             comment: comments,
-
         });
     }
 
     var today = new Date();
     var date = today.getDate() + '/' + (today.getMonth() + 1) + '/' + today.getFullYear();
     var currTime = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-
-
-    var currDate = date + " " + currTime
-
-
-
+    var currDate = date + " " + currTime;
 
     function show_log1() {
         var show_log1 = document.getElementById("table1");
@@ -399,9 +284,7 @@ function Result() {
         } else {
             show_log1.style.display = "none";
         }
-
     }
-
 
     function show_log2() {
         var show_log2 = document.getElementById("table2");
@@ -457,8 +340,6 @@ function Result() {
                 console.log('Uploaded a blob or file!');
             });
         }
-
-
 
         if (!mySet2.has(tempName2) || tempName2 !== "______.") {
             if (tempName2 !== "______.") {
@@ -528,7 +409,6 @@ function Result() {
             .doc(company)
             .collection(customerUser).doc();
 
-
         const docRef = await setDoc(
 
             ref1, {
@@ -567,8 +447,6 @@ function Result() {
 
 
     function check(elem) {
-        // use one of possible conditions
-        // if (elem.value == 'Other')
         var comp_select = document.getElementById("compSelect");
         var user_select = document.getElementById("userSelect");
         var crop_select = document.getElementById("cropSelect");
@@ -661,41 +539,69 @@ function Result() {
 
 
     const insertCompanyValue = () => {
+        var compCount = 0;
         var companyTxtVal = document.getElementById("company-input").value,
 
             newCompanyVal = document.createTextNode(companyTxtVal);
         setNewCompany(newCompanyVal)
 
-        db.collection("field_company").add({
-            name: newCompany,
+        {
+            company1?.map(({ id, data }) => {
+                console.log(data.name + " ----" + newCompany)
+                if (data.name === newCompany) {
+                    compCount = compCount + 1;
+                }
+            })
+        }
 
-            // comments:
-        });
-        document.getElementById("companyresult").style.display = 'none';
+        if (newCompany !== "" && compCount === 0) {
+            db.collection("field_company").add({
+                name: newCompany,
+            });
+        }
+
         setCompany("")
-
-
+        setNewCompany("")
 
     }
+
     const insertUserValue = () => {
 
-
+        var userCount = 0;
         var userTxtVal = document.getElementById("user-input").value,
 
             newUserVal = document.createTextNode(userTxtVal);
         setNewuser(newUserVal)
 
-        db.collection("field_user").add({
-            name: newUser,
 
-            // comments:
-        });
+        {
+            user1?.map(({ id, data }) => {
+                console.log(data.name + " ----" + newUser)
+
+                if (data.name === newUser) {
+
+                    userCount = userCount + 1;
+
+                }
+
+            })
+        }
+        if (newUser !== "" && userCount === 0) {
+            db.collection("field_user").add({
+                name: newUser,
+
+                // comments:
+            });
+        }
+
+
+
         document.getElementById("userresult").style.display = 'none';
         setCustomerUser("")
 
     }
     const insertCropValue = () => {
-
+        var cropCount = 0;
 
         var cropTxtVal = document.getElementById("crop-input").value,
 
@@ -703,29 +609,58 @@ function Result() {
         setNewCrop(newCropVal)
 
 
-        db.collection("field_crop").add({
-            name: newCrop,
+        {
+            crop1?.map(({ id, data }) => {
+                console.log(data.name + " ----" + newCrop)
 
-            // comments:
-        });
+                if (data.name === newCrop) {
+
+                    if (newCrop !== "______.") {
+                        cropCount = cropCount + 1;
+                    }
+                }
+
+            })
+        }
+        if (newCrop !== "" && cropCount === 0) {
+            db.collection("field_crop").add({
+                name: newCrop,
+
+                // comments:
+            });
+        }
         document.getElementById("cropresult").style.display = 'none';
         setCrop("")
 
     }
     const insertVarietyValue = () => {
 
-
+        var varietyCount = 0;
         var varietyTxtVal = document.getElementById("variety-input").value,
 
             newVarietyVal = document.createTextNode(varietyTxtVal);
         setNewVariety(newVarietyVal)
+        {
+            variety1?.map(({ id, data }) => {
+                console.log(data.name + " ----" + newVariety)
 
+                if (data.name === newVariety) {
 
-        db.collection("field_variety").add({
-            name: newVariety,
+                    if (newVariety !== "______.") {
+                        varietyCount = varietyCount + 1;
+                    }
+                }
 
-            // comments:
-        });
+            })
+        }
+
+        if (newVariety !== "" && varietyCount === 0) {
+            db.collection("field_variety").add({
+                name: newVariety,
+
+                // comments:
+            });
+        }
         document.getElementById("varietyresult").style.display = 'none';
         setVariety("")
 
@@ -734,19 +669,33 @@ function Result() {
 
     const insertMachineValue = () => {
 
-
+        var machineCount = 0;
         var machineTxtVal = document.getElementById("machine-input").value,
 
             newMachineVal = document.createTextNode(machineTxtVal);
         setNewMachine(newMachineVal)
         console.log(newMachineVal)
+        {
+            machine1?.map(({ id, data }) => {
+                console.log(data.name + " ----" + newMachine)
 
+                if (data.name === newMachine) {
 
-        db.collection("field_machine").add({
-            name: newMachine,
+                    if (newMachine !== "______.") {
+                        machineCount = machineCount + 1;
+                    }
+                }
 
-            // comments:
-        });
+            })
+        }
+
+        if (newMachine !== "" && machineCount === 0) {
+            db.collection("field_machine").add({
+                name: newMachine,
+
+                // comments:
+            });
+        }
         document.getElementById("machineresult").style.display = 'none';
         setMachine("")
 
@@ -910,8 +859,9 @@ function Result() {
                 </div>
             </div>
 
-            <hr />
-            <hr />
+            <hr style={{ marginLeft: "20px" }} />
+            <hr style={{ marginLeft: "20px" }} />
+
 
             <div className="results">
                 <div>

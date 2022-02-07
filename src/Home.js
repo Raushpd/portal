@@ -15,7 +15,7 @@ import PhNumber from './components/PhNumber'
 import { upload } from "@testing-library/user-event/dist/upload";
 import { Link } from "react-router-dom"
 
-function Home() {
+function Home(props) {
 
 
     const [customerPurpose, setCustomerPurpose] = useState("");
@@ -28,7 +28,7 @@ function Home() {
     const [customerUser, setCustomerUser] = useState("");
 
 
-
+    console.log(props.mail)
     var count = 1;
 
 
@@ -77,14 +77,14 @@ function Home() {
         if (e.target.value !== "Select") {
             setValue1(e.target.value);
         }
-        console.log(e.target.value)
+        // console.log(e.target.value)
 
     }
     function selectedRelease(e) {
         if (e.target.value !== "Select") {
             setValue3(e.target.value);
         }
-        console.log(e.target.value)
+        // console.log(e.target.value)
 
     }
 
@@ -92,7 +92,7 @@ function Home() {
         if (e.target.value !== "Select") {
             setValue2(e.target.value);
         }
-        console.log(e.target.value)
+        // console.log(e.target.value)
 
     }
 
@@ -145,9 +145,9 @@ function Home() {
         var filesArray = [].slice.call(files);
         filesArray.forEach(e => {
 
-            console.log(e.size);
-            console.log(e.lastModifiedDate);
-            console.log(e.type);
+            // console.log(e.size);
+            // console.log(e.lastModifiedDate);
+            // console.log(e.type);
             fileSize1 = e.size
             setSize1(fileSize1);
             modDate1 = e.lastModifiedDate
@@ -165,18 +165,18 @@ function Home() {
             txt7 = txt1.substring(txt1.indexOf("T") + 1)
             txt8 = txt7.substring(0, txt7.length - 2)
 
-            console.log(txt6)
+            // console.log(txt6)
             setDate1(txt6)
             setTime1(txt8)
             text3 = txt6 + " " + txt8;
             setText4(text3)
             setNewname1(name1)
-            console.log(newname1)
+            // console.log(newname1)
             setImageName1(name1);
             setImageTime1(text3);
-            console.log(imageName1)
+            // console.log(imageName1)
 
-            console.log(imageTime1)
+            // console.log(imageTime1)
 
 
         });
@@ -196,14 +196,14 @@ function Home() {
         var filesArray2 = [].slice.call(files2);
         filesArray2.forEach(e => {
 
-            console.log(e.size);
-            console.log(e.lastModifiedDate);
-            console.log(typeof (e.lastModifiedDate))
-            console.log(e.type);
+            // console.log(e.size);
+            // console.log(e.lastModifiedDate);
+            // console.log(typeof (e.lastModifiedDate))
+            // console.log(e.type);
             fileSize2 = e.size
             setSize2(fileSize2);
             modDate2 = e.lastModifiedDate
-            console.log(typeof (modDate2))
+            // console.log(typeof (modDate2))
             // setDate2(modDate2);
             fileType2 = e.type
             setType2(fileType2);
@@ -218,7 +218,7 @@ function Home() {
             txt4 = txt2.substring(txt2.indexOf("T") + 1)
             txt5 = txt4.substring(0, txt4.length - 2)
 
-            console.log(txt5)
+            // console.log(txt5)
             setDate2(txt3)
             setTime2(txt5)
             text = txt3 + " " + txt5;
@@ -301,7 +301,7 @@ function Home() {
                 }))
             )
         })
-        console.log({ customersData1 })
+        // console.log({ customersData1 })
 
         db.collection("modal_data").onSnapshot((snapshot) => {
             setCustomersData2(
@@ -311,7 +311,7 @@ function Home() {
                 }))
             )
         })
-        console.log({ customersData2 })
+        // console.log({ customersData2 })
 
         db.collection("field_user").onSnapshot((snapshot) => {
             setUser1(
@@ -368,16 +368,11 @@ function Home() {
     var tempName1 = string + "_" + company + "_" + crop + "_" + variety + "_" + machine + "_" + value1 + "_" + value3 + "_" + value2 + "." + string2;
     // console.log(tempName1)
     // console.log(JSON.stringify(tempName1))
-    console.log(tempName1)
+    // console.log(tempName1)
     const upload1 = () => {
         setNewname1(tempName1)
         if (image1 == null)
             return;
-        // console.log(image);
-
-
-
-        // console.log(tempName1)
 
         if (image1 === null) {
             console.log("hiiii")
@@ -385,25 +380,38 @@ function Home() {
         }
         // console.log(storage)
         const storageRef = ref(storage, `/py_file/${JSON.stringify(newname1)}`)
-        if (tempName1 !== "______.") {
+        // if (tempName1 !== "______.") {
+        //     uploadBytes(storageRef, image1).then((snapshot) => {
+        //         console.log('Uploaded a blob or file!');
+        //     });
+        // }
+        var count = 0;
+
+        {
+            customersData1?.map(({ id, data }) => {
+
+                if (data.name === tempName1) {
+
+                    count = count + 1;
+
+                }
+            })
+        }
+        console.log(tempName1)
+        if (count === 0 && tempName1 !== "_______.") {
+            db.collection("py_data").add({
+                name: tempName1,
+                time: time1,
+                release_type: value3,
+                comment: comments,
+                user: props.mail,
+                // comments:
+            });
             uploadBytes(storageRef, image1).then((snapshot) => {
                 console.log('Uploaded a blob or file!');
             });
         }
 
-        console.log(tempName1)
-        if (!mySet1.has(tempName1)) {
-            if (tempName1 !== "______.") {
-                mySet1.add(tempName1)
-                db.collection("py_data").add({
-                    name: tempName1,
-                    time: time1,
-                    release_type: value3,
-                    comment: comments,
-                    // comments:
-                });
-            }
-        }
 
 
         setImageName1("");
@@ -412,7 +420,8 @@ function Home() {
 
 
     const upload2 = () => {
-        console.log(tempName2)
+        var count = 0;
+        // console.log(tempName2)
         setNewname2(tempName2)
         if (image2 == null) {
             console.log("hiiii")
@@ -420,25 +429,29 @@ function Home() {
         }
         // console.log(image);
         const storageRef = ref(storage, `/modal_file/${JSON.stringify(newname2)}`)
-        if (newname2 !== "______.") {
+
+        {
+            customersData2?.map(({ id, data }) => {
+                console.log(data.name + " ----" + newname2)
+                if (data.name === newname2) {
+                    count = count + 1;
+                }
+
+            })
+        }
+        console.log(count)
+        if (count === 0 && newname2 !== "_______.") {
+            db.collection("modal_data").add({
+                name: newname2,
+                time: time2,
+                release_type: value3,
+                comment: comments,
+                user: props.mail,
+                // comments:
+            });
             uploadBytes(storageRef, image2).then((snapshot) => {
                 console.log('Uploaded a blob or file!');
             });
-        }
-
-
-
-        if (!mySet2.has(newname2)) {
-            if (newname2 !== "______.") {
-                mySet2.add(newname2)
-                db.collection("modal_data").add({
-                    name: newname2,
-                    time: time2,
-                    release_type: value3,
-                    comment: comments,
-                    // comments:
-                });
-            }
         }
 
         setImageName2("");
@@ -453,7 +466,7 @@ function Home() {
         var variety_select = document.getElementById("varietySelect");
         var machine_select = document.getElementById("machineSelect");
         if (comp_select.value === "Other") {
-            console.log("hii")
+            // console.log("hii")
             document.getElementById("companyresult").style.display = 'block';
         } else {
             document.getElementById("companyresult").style.display = 'none';
@@ -503,31 +516,31 @@ function Home() {
 
     function newCompInput(e) {
         setNewCompany(e.target.value);
-        console.log(newCompany)
+        // console.log(newCompany)
 
     }
 
     function newUserInput(e) {
         setNewuser(e.target.value);
-        console.log(newUser)
+        // console.log(newUser)
 
     }
 
     function newCropInput(e) {
         setNewCrop(e.target.value);
-        console.log(newCrop)
+        // console.log(newCrop)
 
     }
 
     function newVarietyInput(e) {
         setNewVariety(e.target.value);
-        console.log(newVariety)
+        // console.log(newVariety)
 
     }
 
     function newMachineInput(e) {
         setNewMachine(e.target.value);
-        console.log(newMachine)
+        // console.log(newMachine)
     }
 
 
@@ -539,16 +552,35 @@ function Home() {
 
 
     const insertCompanyValue = () => {
+        var compCount = 0;
         var companyTxtVal = document.getElementById("company-input").value,
 
             newCompanyVal = document.createTextNode(companyTxtVal);
         setNewCompany(newCompanyVal)
 
-        db.collection("field_company").add({
-            name: newCompany,
 
-            // comments:
-        });
+        {
+            company1?.map(({ id, data }) => {
+                console.log(data.name + " ----" + newCompany)
+
+                if (data.name === newCompany) {
+
+
+                    compCount = compCount + 1;
+
+                }
+
+            })
+        }
+        if (newCompany !== "" && compCount === 0) {
+            db.collection("field_company").add({
+                name: newCompany,
+
+                // comments:
+            });
+        }
+
+
         setCompany("")
         setNewCompany("")
 
@@ -557,23 +589,41 @@ function Home() {
     }
     const insertUserValue = () => {
 
-
+        var userCount = 0;
         var userTxtVal = document.getElementById("user-input").value,
 
             newUserVal = document.createTextNode(userTxtVal);
         setNewuser(newUserVal)
 
-        db.collection("field_user").add({
-            name: newUser,
 
-            // comments:
-        });
+        {
+            user1?.map(({ id, data }) => {
+                console.log(data.name + " ----" + newUser)
+
+                if (data.name === newUser) {
+
+                    userCount = userCount + 1;
+
+                }
+
+            })
+        }
+        if (newUser !== "" && userCount === 0) {
+            db.collection("field_user").add({
+                name: newUser,
+
+                // comments:
+            });
+        }
+
+
+
         document.getElementById("userresult").style.display = 'none';
         setCustomerUser("")
 
     }
     const insertCropValue = () => {
-
+        var cropCount = 0;
 
         var cropTxtVal = document.getElementById("crop-input").value,
 
@@ -581,29 +631,58 @@ function Home() {
         setNewCrop(newCropVal)
 
 
-        db.collection("field_crop").add({
-            name: newCrop,
+        {
+            crop1?.map(({ id, data }) => {
+                console.log(data.name + " ----" + newCrop)
 
-            // comments:
-        });
+                if (data.name === newCrop) {
+
+                    if (newCrop !== "______.") {
+                        cropCount = cropCount + 1;
+                    }
+                }
+
+            })
+        }
+        if (newCrop !== "" && cropCount === 0) {
+            db.collection("field_crop").add({
+                name: newCrop,
+
+                // comments:
+            });
+        }
         document.getElementById("cropresult").style.display = 'none';
         setCrop("")
 
     }
     const insertVarietyValue = () => {
 
-
+        var varietyCount = 0;
         var varietyTxtVal = document.getElementById("variety-input").value,
 
             newVarietyVal = document.createTextNode(varietyTxtVal);
         setNewVariety(newVarietyVal)
+        {
+            variety1?.map(({ id, data }) => {
+                console.log(data.name + " ----" + newVariety)
 
+                if (data.name === newVariety) {
 
-        db.collection("field_variety").add({
-            name: newVariety,
+                    if (newVariety !== "______.") {
+                        varietyCount = varietyCount + 1;
+                    }
+                }
 
-            // comments:
-        });
+            })
+        }
+
+        if (newVariety !== "" && varietyCount === 0) {
+            db.collection("field_variety").add({
+                name: newVariety,
+
+                // comments:
+            });
+        }
         document.getElementById("varietyresult").style.display = 'none';
         setVariety("")
 
@@ -612,19 +691,33 @@ function Home() {
 
     const insertMachineValue = () => {
 
-
+        var machineCount = 0;
         var machineTxtVal = document.getElementById("machine-input").value,
 
             newMachineVal = document.createTextNode(machineTxtVal);
         setNewMachine(newMachineVal)
         console.log(newMachineVal)
+        {
+            machine1?.map(({ id, data }) => {
+                console.log(data.name + " ----" + newMachine)
 
+                if (data.name === newMachine) {
 
-        db.collection("field_machine").add({
-            name: newMachine,
+                    if (newMachine !== "______.") {
+                        machineCount = machineCount + 1;
+                    }
+                }
 
-            // comments:
-        });
+            })
+        }
+
+        if (newMachine !== "" && machineCount === 0) {
+            db.collection("field_machine").add({
+                name: newMachine,
+
+                // comments:
+            });
+        }
         document.getElementById("machineresult").style.display = 'none';
         setMachine("")
 
@@ -822,10 +915,10 @@ function Home() {
             </div>
             <div className="threshold">
 
-                <input value={comments} onChange={(e) => setComments(e.target.value)} placeholder="Comments"></input>
+                <input value={comments} onChange={(e) => setComments(e.target.value)} placeholder="Comments" required></input>
             </div>
             <div className="line">
-                <h3 style={{ textAlign: "center" }}>Uplaod History of Py file</h3>
+                <h3 style={{ textAlign: "center" }}>Upload History of Py file</h3>
                 <div>
                     <h4>Name of Py File--> {tempName1}</h4>
                     <h4>File Type--{type1}
@@ -848,6 +941,10 @@ function Home() {
                             <th></th>
                             <th></th>
                             <th>Comments</th>
+                            <th></th>
+                            <th></th>
+                            <th>User</th>
+
 
                         </tr>
 
@@ -869,6 +966,9 @@ function Home() {
                                 <td></td>
                                 <td></td>
                                 <td>{data.comment}</td>
+                                <td></td>
+                                <td></td>
+                                <td>{data.user}</td>
 
                             </tr>
 
@@ -905,6 +1005,9 @@ function Home() {
                             <th></th>
                             <th></th>
                             <th>Comments</th>
+                            <th></th>
+                            <th></th>
+                            <th>User</th>
                         </tr>
 
 
@@ -924,6 +1027,9 @@ function Home() {
                                 <td></td>
                                 <td></td>
                                 <td>{data.comment}</td>
+                                <td></td>
+                                <td></td>
+                                <td>{data.user}</td>
                             </tr>
 
 

@@ -670,71 +670,138 @@ function Threshold(props) {
 
 
     const insertCompanyValue = () => {
+        var compCount = 0;
         var companyTxtVal = document.getElementById("company-input").value,
 
             newCompanyVal = document.createTextNode(companyTxtVal);
         setNewCompany(newCompanyVal)
 
-        db.collection("field_company").add({
-            name: newCompany,
 
-            // comments:
-        });
-        document.getElementById("companythres").style.display = 'none';
+        {
+            company1?.map(({ id, data }) => {
+                console.log(data.name + " ----" + newCompany)
+
+                if (data.name === newCompany) {
+
+
+                    compCount = compCount + 1;
+
+                }
+
+            })
+        }
+        if (newCompany !== "" && compCount === 0) {
+            db.collection("field_company").add({
+                name: newCompany,
+
+                // comments:
+            });
+        }
+
+
         setCompany("")
+        setNewCompany("")
 
 
 
     }
     const insertUserValue = () => {
 
-
+        var userCount = 0;
         var userTxtVal = document.getElementById("user-input").value,
 
             newUserVal = document.createTextNode(userTxtVal);
         setNewuser(newUserVal)
 
-        db.collection("field_user").add({
-            name: newUser,
 
-            // comments:
-        });
-        document.getElementById("userthres").style.display = 'none';
+        {
+            user1?.map(({ id, data }) => {
+                console.log(data.name + " ----" + newUser)
+
+                if (data.name === newUser) {
+
+                    userCount = userCount + 1;
+
+                }
+
+            })
+        }
+        if (newUser !== "" && userCount === 0) {
+            db.collection("field_user").add({
+                name: newUser,
+
+                // comments:
+            });
+        }
+
+
+
+        document.getElementById("userresult").style.display = 'none';
         setCustomerUser("")
 
     }
     const insertCropValue = () => {
-
+        var cropCount = 0;
 
         var cropTxtVal = document.getElementById("crop-input").value,
 
             newCropVal = document.createTextNode(cropTxtVal);
         setNewCrop(newCropVal)
 
-        db.collection("field_crop").add({
-            name: newCrop,
 
-            // comments:
-        });
-        document.getElementById("cropthres").style.display = 'none';
+        {
+            crop1?.map(({ id, data }) => {
+                console.log(data.name + " ----" + newCrop)
+
+                if (data.name === newCrop) {
+
+                    if (newCrop !== "______.") {
+                        cropCount = cropCount + 1;
+                    }
+                }
+
+            })
+        }
+        if (newCrop !== "" && cropCount === 0) {
+            db.collection("field_crop").add({
+                name: newCrop,
+
+                // comments:
+            });
+        }
+        document.getElementById("cropresult").style.display = 'none';
         setCrop("")
 
     }
     const insertVarietyValue = () => {
 
-
+        var varietyCount = 0;
         var varietyTxtVal = document.getElementById("variety-input").value,
 
             newVarietyVal = document.createTextNode(varietyTxtVal);
         setNewVariety(newVarietyVal)
+        {
+            variety1?.map(({ id, data }) => {
+                console.log(data.name + " ----" + newVariety)
 
+                if (data.name === newVariety) {
 
-        db.collection("field_variety").add({
-            name: newVariety,
+                    if (newVariety !== "______.") {
+                        varietyCount = varietyCount + 1;
+                    }
+                }
 
-            // comments:
-        });
-        document.getElementById("varietythres").style.display = 'none';
+            })
+        }
+
+        if (newVariety !== "" && varietyCount === 0) {
+            db.collection("field_variety").add({
+                name: newVariety,
+
+                // comments:
+            });
+        }
+        document.getElementById("varietyresult").style.display = 'none';
         setVariety("")
 
     }
@@ -742,54 +809,39 @@ function Threshold(props) {
 
     const insertMachineValue = () => {
 
-
+        var machineCount = 0;
         var machineTxtVal = document.getElementById("machine-input").value,
 
             newMachineVal = document.createTextNode(machineTxtVal);
         setNewMachine(newMachineVal)
         console.log(newMachineVal)
+        {
+            machine1?.map(({ id, data }) => {
+                console.log(data.name + " ----" + newMachine)
 
+                if (data.name === newMachine) {
 
-        db.collection("field_machine").add({
-            name: newMachine,
+                    if (newMachine !== "______.") {
+                        machineCount = machineCount + 1;
+                    }
+                }
 
-            // comments:
-        });
-        document.getElementById("machinethres").style.display = 'none';
+            })
+        }
+
+        if (newMachine !== "" && machineCount === 0) {
+            db.collection("field_machine").add({
+                name: newMachine,
+
+                // comments:
+            });
+        }
+        document.getElementById("machineresult").style.display = 'none';
         setMachine("")
-
     }
 
-
-
     return (
-
         <div className="App">
-
-            {/* <h2 style={{ textAlign: "center" }}>Upload Module Files</h2>
-
-            <div id="files">
-                <div id="py">
-                    <h3 id="py_text">Select Py File</h3>
-                    <form onSubmit={formHandler1}>
-                        <input type="file" className="input" onChange={handleChange1} required />
-                        <div id="output1"></div>
-
-
-
-                    </form>
-                </div>
-                <div id="modal">
-                    <h3 id="modal_text">Select Modal File</h3>
-                    <form onSubmit={formHandler2}>
-                        <input type="file" className="input" onChange={handleChange2} required />
-                        <div id="output2"></div>
-
-
-                    </form>
-                </div>
-            </div> */}
-
 
 
             <div className="user_form2">
@@ -958,8 +1010,8 @@ function Threshold(props) {
                     <h4>You have selected-- {class1}</h4>
                 </div>
             </div>
-            <hr />
-            <hr />
+            <hr style={{ marginLeft: "20px" }} />
+            <hr style={{ marginLeft: "20px" }} />
             <h4>Comments</h4>
             <div className="threshold">
 

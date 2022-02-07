@@ -1,6 +1,9 @@
-/* .form{
-    background-color: black;
-} */
+.form{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin:auto;
+}
 
 .popup-content{
     margin: auto;
@@ -50,29 +53,41 @@
 	margin-top: 50px;
 }
 
-/* #table1{
-    
-    background-color: green;
-} */
-#item{
-    display: flex;
-    
-}
-th{
-    margin-left: 20px;
-    
-}
 
-td{
-    padding: 10px 7px 10px 7px;
+
+table#head {
+    table-layout: fixed ;
+    width: 800px ;
+    border-collapse: collapse ;
     
-}
-#pause, #activate{
-    margin: 10px 70px 10px 70px;
-}
+  }
+  table#head th {
+    width: 50% ;
+    padding: 10px ;
+  }
+  
+  table#head caption {
+    font-style: italic ;
+  }  
+table#content {
+    table-layout: fixed ;
+    width: 800px ;
+    border-collapse: collapse ;
+    
+  }
+  table#content td {
+    width: 50% ;
+    padding: 10px ;
+    /* background-color: red; */
+    text-align: center;
+  }
+  
+  table#content caption {
+    font-style: italic ;
+  }  
 hr{
-    width:70%;
-    margin-left: -60px;
+    width:115%;
+    margin-left: -64px;
     
 }
 .popup{
@@ -87,21 +102,28 @@ hr{
 
 #adduser{
 display:flex;
+justify-items: baseline;
 margin-left:80%;
 cursor: pointer;
 
 /* background-color: green; */
 }
-.user{
+.user, .close{
+    
     margin-left:20px;
     border: none;
     background: none;
     cursor: pointer;
     margin: 0;
     padding: 0;
-    color: blue;
+    
     font-size: 17px;
     /* margin:10px; */
+}
+
+
+.user{
+    color: blue;
 }
 .add{
     border: none;
@@ -111,7 +133,7 @@ cursor: pointer;
     padding: 0;
     color: blue;
     font-size: 20px;
-    margin-bottom: 10 px;
+    margin-bottom: 20px;
     /* background-color: black; */
 }
 
@@ -129,3 +151,4 @@ cursor: pointer;
     margin-right:0;
     margin-left:50px;
 }
+

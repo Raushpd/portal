@@ -5,8 +5,6 @@ import Signup from './Signup';
 import Signin from './Signin';
 import ForgotPassword from './ForgotPass';
 import App from './App';
-import Main from './Main';
-import Main1 from './Main1';
 import CompanyAdmin from './CompanyAdmin';
 import CompanyAdmin1 from './CompanyAdmin1';
 // import ForgotPasword from '../src/comp/ForgotPass1';

@@ -1,11 +1,8 @@
 import firebase from "firebase/compat/app"
 import { initializeApp } from 'firebase/app';
 import 'firebase/compat/auth';
-
 // import { initializeApp } from "firebase/app";
 // import { getFirestore } from 'firebase/firestore/lite';
-
-
 const firebaseApp = firebase.initializeApp({
     apiKey: "AIzaSyDELtExiZMxa_9BmlrObz56lxcTugL30mI",
     authDomain: "portal-93461.firebaseapp.com",
